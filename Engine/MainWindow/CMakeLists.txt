@@ -16,9 +16,15 @@ target_link_libraries(MainWindow PUBLIC
 	Mouse
 )
 
+
+target_link_libraries(MainWindow PRIVATE
+	Resource
+)
+
 add_dependencies(MainWindow 
 	ChiliException 
-	ChiliWin 
+	ChiliWin
 	Keyboard 
 	Mouse
+	Resource
 )

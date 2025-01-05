@@ -19,9 +19,8 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "MainWindow/include/MainWindow.h"
-#include "Game/include/Game.h"
-
 #include "Resource/include/Resource.h"
+
 #include <assert.h>
 
 MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
