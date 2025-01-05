@@ -19,9 +19,8 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "MainWindow/include/MainWindow.h"
-#include "ChiliException/include/ChiliException.h"
 #include "Game/include/Game.h"
-#include "Graphics/include/Graphics.h"
+
 #include "Resource/include/Resource.h"
 #include <assert.h>
 
