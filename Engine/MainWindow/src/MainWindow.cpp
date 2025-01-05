@@ -50,12 +50,15 @@ MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
   RegisterClassEx(&wc);
 
   // create window & get hWnd
-  RECT wr;
-  wr.left = 350;
-  wr.right = Graphics::ScreenWidth + wr.left;
-  wr.top = 100;
-  wr.bottom = Graphics::ScreenHeight + wr.top;
+  RECT wr{
+      350,                               //Left
+      100,                               //Top
+      (Graphics::ScreenWidth + wr.left), //Right
+      Graphics::ScreenHeight + wr.top    //Bottom
+  };
+
   AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+
   m_hWnd = CreateWindow((LPCSTR)m_wndClassName,
                         "Chili DirectX Framework",
                         WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,

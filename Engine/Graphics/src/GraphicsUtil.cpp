@@ -1,5 +1,4 @@
 #include "Graphics/include/Graphics.hpp"
-#include "MainWindow/include/MainWindow.hpp"
 
 namespace GraphicsUtil
 {

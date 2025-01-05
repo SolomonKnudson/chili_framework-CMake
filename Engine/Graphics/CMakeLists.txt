@@ -19,13 +19,11 @@ target_link_libraries(Graphics PUBLIC
 target_link_libraries(Graphics PRIVATE
 	d3d11.lib
 	DXErr
-	MainWindow
 )
 
 add_dependencies(Graphics	
 	ChiliException 
 	Colors 
 	ChiliWin 
-	MainWindow
 	DXErr
 )

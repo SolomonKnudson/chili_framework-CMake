@@ -96,6 +96,9 @@ public:
 
 private:
   void
+  init(HWND Key);
+
+  void
   create_device_and_swap_chain(HWND key);
 
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
