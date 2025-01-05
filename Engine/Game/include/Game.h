@@ -49,6 +49,6 @@ private:
   /*  User Variables              */
   /********************************/
 
-  MainWindow& wnd;
-  Graphics gfx{};
+  MainWindow& m_wnd;
+  Graphics m_gfx{};
 };

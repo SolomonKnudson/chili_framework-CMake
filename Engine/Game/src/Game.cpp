@@ -21,27 +21,35 @@
 #include "Game/include/Game.h"
 
 Game::Game(MainWindow& wnd)
-  : wnd(wnd)
-  , gfx(wnd)
+  : m_wnd{wnd}
+  , m_gfx{wnd}
 {
 }
 
 void
 Game::Go()
 {
-  gfx.BeginFrame();
+  m_gfx.BeginFrame();
   UpdateModel();
+
   ComposeFrame();
-  gfx.EndFrame();
+  m_gfx.EndFrame();
 }
 
 void
 Game::UpdateModel()
 {
-  gfx.PutPixel(50, 50, Colors::Red);
+  for(int i{}, x{}, y{}; i < 500; ++i, ++x, ++y)
+  {
+    m_gfx.PutPixel(x, y, Colors::Red);
+  }
 }
 
 void
 Game::ComposeFrame()
 {
+  for (int i{}, x{500}; i < 300; ++i, ++x)
+  {
+    m_gfx.PutPixel(x, 500, Colors::Magenta);
+  }
 }
