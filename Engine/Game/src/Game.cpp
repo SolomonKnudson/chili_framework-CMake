@@ -22,7 +22,7 @@
 
 Game::Game(MainWindow& wnd)
   : m_wnd{wnd}
-  , m_gfx{wnd}
+  , m_gfx{wnd.key()}
 {
 }
 

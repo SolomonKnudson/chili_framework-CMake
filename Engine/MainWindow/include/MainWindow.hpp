@@ -98,8 +98,8 @@ private:
   HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-  Mouse m_mouse{};
   Keyboard m_kbd{};
+  Mouse m_mouse{};
 
 private:
   std::wstring m_args{};

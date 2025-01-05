@@ -23,8 +23,8 @@
 #include <assert.h>
 
 MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
-  : m_mouse{}
-  , m_kbd{}
+  : m_kbd{}
+  , m_mouse{}
   , m_args{pArgs}
   , m_hWnd{}
   , m_hInst{hInst}
