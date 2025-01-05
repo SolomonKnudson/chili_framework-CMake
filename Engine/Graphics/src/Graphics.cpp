@@ -80,7 +80,7 @@ Graphics::Graphics(HWNDKey& key)
 
   , m_pSysBuffer{}
 {
-  assert(key.hWnd != nullptr);
+  assert(key.m_hWnd != nullptr);
   //////////////////////////////////////////////////////
   // create device and swap chain/get render target view
   DXGI_SWAP_CHAIN_DESC sd = {};
@@ -91,7 +91,7 @@ Graphics::Graphics(HWNDKey& key)
   sd.BufferDesc.RefreshRate.Numerator = 1;
   sd.BufferDesc.RefreshRate.Denominator = 60;
   sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-  sd.OutputWindow = key.hWnd;
+  sd.OutputWindow = key.m_hWnd;
   sd.SampleDesc.Count = 1;
   sd.SampleDesc.Quality = 0;
   sd.Windowed = TRUE;

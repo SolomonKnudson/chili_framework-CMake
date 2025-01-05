@@ -44,7 +44,7 @@ protected:
   HWNDKey() = default;
 
 protected:
-  HWND hWnd = nullptr;
+  HWND m_hWnd{};
 };
 
 class MainWindow : public HWNDKey
@@ -66,7 +66,6 @@ public:
     }
   };
 
-public:
   MainWindow(HINSTANCE hInst, wchar_t* pArgs);
   MainWindow(const MainWindow&) = delete;
   MainWindow&
@@ -92,7 +91,7 @@ public:
   const std::wstring&
   GetArgs() const
   {
-    return args;
+    return m_args;
   }
 
 private:
@@ -104,12 +103,12 @@ private:
   HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-  Keyboard kbd;
-  Mouse mouse;
+  Mouse m_mouse{};
+  Keyboard m_kbd{};
 
 private:
-  static constexpr wchar_t* wndClassName = L"Chili DirectX Framework Window";
-  HINSTANCE hInst = nullptr;
-  std::wstring args;
+  std::wstring m_args{};
+  HINSTANCE m_hInst{};
+  static constexpr wchar_t* m_wndClassName{L"Chili DirectX Framework Window"};
 };
 #endif // !MAIN_WINDOW_H
