@@ -11,3 +11,5 @@ target_include_directories(COMInitializer PUBLIC
 target_link_libraries(COMInitializer INTERFACE	
 	ChiliWin
 )
+
+add_dependencies(COMInitializer ChiliWin)
