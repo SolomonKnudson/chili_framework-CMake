@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 add_library(Resource INTERFACE 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/Resource.h
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Resource.hpp
 )
 
 target_include_directories(Resource INTERFACE
