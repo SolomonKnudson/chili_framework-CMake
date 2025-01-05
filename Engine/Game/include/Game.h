@@ -20,10 +20,10 @@
  ******************************************************************************************/
 #pragma once
 
-#include "Keyboard/include/Keyboard.h"
-#include "Mouse/include/Mouse.h"
 #include "Graphics/include/Graphics.h"
+#include "Keyboard/include/Keyboard.h"
 #include "MainWindow/include/MainWindow.h"
+#include "Mouse/include/Mouse.h"
 
 class Game
 {
@@ -44,6 +44,7 @@ private:
   ComposeFrame();
   void
   UpdateModel();
+
 private:
   /********************************/
   /*  User Variables              */
