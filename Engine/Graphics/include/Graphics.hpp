@@ -76,6 +76,9 @@ public:
   Graphics(const Graphics&) = delete;
   ~Graphics();
 
+  void
+  init(HWND Key);
+
   Graphics&
   operator=(const Graphics&) = delete;
 
@@ -96,9 +99,6 @@ public:
 
 private:
   void
-  init(HWND Key);
-
-  void
   Graphics::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc);
 
   void
@@ -110,6 +110,16 @@ private:
   void
   create_texture_for_cpu_render_target(const D3D11_TEXTURE2D_DESC& sysTexDesc,
                                        HRESULT hr);
+
+  void
+  create_resource_view_on_texture(const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc,
+                                  HRESULT hr);
+
+  void
+  create_pixel_shader_for_framebuffer(HRESULT hr);
+
+  void
+  create_vertex_shader_for_framebuffer(HRESULT hr);
 
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
   Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
