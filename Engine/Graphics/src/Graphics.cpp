@@ -48,7 +48,7 @@ Graphics::Graphics()
 {
 }
 
-Graphics::Graphics(HWND key)
+Graphics::Graphics(HWND wnd)
   : m_pSwapChain{}
   , m_pDevice{}
 
@@ -69,8 +69,8 @@ Graphics::Graphics(HWND key)
 
   , m_pSysBuffer{}
 {
-  assert(key);
-  init(key);
+  assert(wnd);
+  init(wnd);
 }
 
 Graphics::~Graphics()

@@ -72,12 +72,12 @@ private:
 
 public:
   Graphics();
-  Graphics(HWND key);
+  Graphics(HWND wnd);
   Graphics(const Graphics&) = delete;
   ~Graphics();
 
   void
-  init(HWND Key);
+  init(HWND wnd);
 
   Graphics&
   operator=(const Graphics&) = delete;
