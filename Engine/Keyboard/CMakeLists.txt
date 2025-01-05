@@ -7,5 +7,3 @@ add_library(Keyboard
 target_include_directories(Keyboard PUBLIC
 	${CMAKE_SOURCE_DIR}/Engine/
 )
-
-target_link_libraries(Keyboard)
