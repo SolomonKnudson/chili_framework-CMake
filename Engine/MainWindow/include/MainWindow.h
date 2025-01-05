@@ -18,12 +18,16 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#pragma once
+#ifndef MAIN_WINDOW_H
+#define MAIN_WINDOW_H
+
 #include "ChiliException/include/ChiliException.h"
 #include "ChiliWin/include/ChiliWin.h"
-#include "Graphics/include/Graphics.h"
+
 #include "Keyboard/include/Keyboard.h"
 #include "Mouse/include/Mouse.h"
+
+#include "Graphics/include/Graphics.h"
 #include <string>
 
 // for granting special access to hWnd only for Graphics constructor
@@ -81,6 +85,7 @@ public:
   {
     PostQuitMessage(0);
   }
+
   // returns false if quitting
   bool
   ProcessMessage();
@@ -107,3 +112,4 @@ private:
   HINSTANCE hInst = nullptr;
   std::wstring args;
 };
+#endif // !MAIN_WINDOW_H
