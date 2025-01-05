@@ -22,7 +22,7 @@
 #include "Game/include/Game.h"
 #include "MainWindow/include/MainWindow.h"
 
-int WINAPI
+static int WINAPI
 wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
 {
   try
@@ -31,6 +31,7 @@ wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
     try
     {
       Game theGame(wnd);
+
       while (wnd.ProcessMessage())
       {
         theGame.Go();

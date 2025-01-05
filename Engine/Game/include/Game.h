@@ -28,28 +28,23 @@
 class Game
 {
 public:
-  /********************************/
-  /*  User Functions              */
-  /********************************/
-
   Game(class MainWindow& wnd);
   Game(const Game&) = delete;
+
   Game&
   operator=(const Game&) = delete;
+
   void
   Go();
 
 private:
   void
   ComposeFrame();
+
   void
   UpdateModel();
 
 private:
-  /********************************/
-  /*  User Variables              */
-  /********************************/
-
   MainWindow& m_wnd;
   Graphics m_gfx{};
 };
