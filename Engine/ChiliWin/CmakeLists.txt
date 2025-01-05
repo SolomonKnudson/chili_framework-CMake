@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.5)
+
+add_library(ChiliWin INTERFACE 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ChiliWin.h
+)
+
+target_include_directories(ChiliWin INTERFACE
+	${CMAKE_SOURCE_DIR}/Engine/
+)
