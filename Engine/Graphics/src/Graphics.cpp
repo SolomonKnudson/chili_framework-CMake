@@ -19,7 +19,6 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "Graphics/include/Graphics.h"
-#include "ChiliException/include/ChiliException.h"
 #include "DXErr/include/DXErr.h"
 #include "MainWindow/include/MainWindow.h" //Must be included here
 

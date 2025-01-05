@@ -9,11 +9,16 @@ target_include_directories(Graphics PUBLIC
 	${CMAKE_SOURCE_DIR}/Engine
 )
 
-target_link_libraries(Graphics 
+target_link_libraries(Graphics PUBLIC
 	d3d11.lib 
 	ChiliException 
 	Colors 
 	ChiliWin 
+)
+
+target_link_libraries(Graphics PRIVATE
+	d3d11.lib
+	DXErr
 	MainWindow
 )
 
@@ -22,4 +27,5 @@ add_dependencies(Graphics
 	Colors 
 	ChiliWin 
 	MainWindow
+	DXErr
 )
