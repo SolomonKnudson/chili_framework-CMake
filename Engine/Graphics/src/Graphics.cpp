@@ -42,25 +42,25 @@ namespace FramebufferShaders
 using Microsoft::WRL::ComPtr;
 
 Graphics::Graphics()
-  : pSwapChain{}
-  , pDevice{}
-
-  , pImmediateContext{}
-  , pRenderTargetView{}
-  
-  , pSysBufferTexture{}
-  , pSysBufferTextureView{}
-
-  , pPixelShader{}
-  , pVertexShader{}
-
-  , pVertexBuffer{}
-  , pInputLayout{}
-
-  , pSamplerState{}
-  , mappedSysBufferTexture{}
-
-  , pSysBuffer{}
+  : m_pSwapChain{}
+  , m_pDevice{}
+    
+  , m_pImmediateContext{}
+  , m_pRenderTargetView{}
+   
+  , m_pSysBufferTexture{}
+  , m_pSysBufferTextureView{}
+   
+  , m_pPixelShader{}
+  , m_pVertexShader{}
+    
+  , m_pVertexBuffer{}
+  , m_pInputLayout{}
+   
+  , m_pSamplerState{}
+  , m_mappedSysBufferTexture{}
+    
+  , m_pSysBuffer{}
 {}
 
 
@@ -100,32 +100,32 @@ Graphics::Graphics(HWNDKey& key)
                                                 0,
                                                 D3D11_SDK_VERSION,
                                                 &sd,
-                                                &pSwapChain,
-                                                &pDevice,
+                                                &m_pSwapChain,
+                                                &m_pDevice,
                                                 nullptr,
-                                                &pImmediateContext)))
+                                                &m_pImmediateContext)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating device and swap chain");
   }
 
   // get handle to backbuffer
-  ComPtr<ID3D11Resource> pBackBuffer;
-  if (FAILED(hr = pSwapChain->GetBuffer(
+  ComPtr<ID3D11Resource> pBackBuffer{};
+  if (FAILED(hr = m_pSwapChain->GetBuffer(
                  0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Getting back buffer");
   }
 
   // create a view on backbuffer that we can render to
-  if (FAILED(hr = pDevice->CreateRenderTargetView(
-                 pBackBuffer.Get(), nullptr, &pRenderTargetView)))
+  if (FAILED(hr = m_pDevice->CreateRenderTargetView(
+                 pBackBuffer.Get(), nullptr, &m_pRenderTargetView)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating render target view on backbuffer");
   }
 
   // set backbuffer as the render target using created view
-  pImmediateContext->OMSetRenderTargets(
-      1, pRenderTargetView.GetAddressOf(), nullptr);
+  m_pImmediateContext->OMSetRenderTargets(
+      1, m_pRenderTargetView.GetAddressOf(), nullptr);
 
   // set viewport dimensions
   D3D11_VIEWPORT vp;
@@ -135,7 +135,7 @@ Graphics::Graphics(HWNDKey& key)
   vp.MaxDepth = 1.0f;
   vp.TopLeftX = 0.0f;
   vp.TopLeftY = 0.0f;
-  pImmediateContext->RSSetViewports(1, &vp);
+  m_pImmediateContext->RSSetViewports(1, &vp);
 
   ///////////////////////////////////////
   // create texture for cpu render target
@@ -152,8 +152,8 @@ Graphics::Graphics(HWNDKey& key)
   sysTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
   sysTexDesc.MiscFlags = 0;
   // create the texture
-  if (FAILED(hr = pDevice->CreateTexture2D(
-                 &sysTexDesc, nullptr, &pSysBufferTexture)))
+  if (FAILED(hr = m_pDevice->CreateTexture2D(
+                 &sysTexDesc, nullptr, &m_pSysBufferTexture)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating sysbuffer texture");
   }
@@ -163,8 +163,8 @@ Graphics::Graphics(HWNDKey& key)
   srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
   srvDesc.Texture2D.MipLevels = 1;
   // create the resource view on the texture
-  if (FAILED(hr = pDevice->CreateShaderResourceView(
-                 pSysBufferTexture.Get(), &srvDesc, &pSysBufferTextureView)))
+  if (FAILED(hr = m_pDevice->CreateShaderResourceView(
+                 m_pSysBufferTexture.Get(), &srvDesc, &m_pSysBufferTextureView)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating view on sysBuffer texture");
   }
@@ -172,11 +172,11 @@ Graphics::Graphics(HWNDKey& key)
   ////////////////////////////////////////////////
   // create pixel shader for framebuffer
   // Ignore the intellisense error "namespace has no member"
-  if (FAILED(hr = pDevice->CreatePixelShader(
+  if (FAILED(hr = m_pDevice->CreatePixelShader(
                  FramebufferShaders::FramebufferPSBytecode,
                  sizeof(FramebufferShaders::FramebufferPSBytecode),
                  nullptr,
-                 &pPixelShader)))
+                 &m_pPixelShader)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating pixel shader");
   }
@@ -184,11 +184,11 @@ Graphics::Graphics(HWNDKey& key)
   /////////////////////////////////////////////////
   // create vertex shader for framebuffer
   // Ignore the intellisense error "namespace has no member"
-  if (FAILED(hr = pDevice->CreateVertexShader(
+  if (FAILED(hr = m_pDevice->CreateVertexShader(
                  FramebufferShaders::FramebufferVSBytecode,
                  sizeof(FramebufferShaders::FramebufferVSBytecode),
                  nullptr,
-                 &pVertexShader)))
+                 &m_pVertexShader)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex shader");
   }
@@ -210,7 +210,7 @@ Graphics::Graphics(HWNDKey& key)
   bd.CPUAccessFlags = 0u;
   D3D11_SUBRESOURCE_DATA initData = {};
   initData.pSysMem = vertices;
-  if (FAILED(hr = pDevice->CreateBuffer(&bd, &initData, &pVertexBuffer)))
+  if (FAILED(hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex buffer");
   }
@@ -233,12 +233,12 @@ Graphics::Graphics(HWNDKey& key)
                                            0}};
 
   // Ignore the intellisense error "namespace has no member"
-  if (FAILED(hr = pDevice->CreateInputLayout(
+  if (FAILED(hr = m_pDevice->CreateInputLayout(
                  ied,
                  2,
                  FramebufferShaders::FramebufferVSBytecode,
                  sizeof(FramebufferShaders::FramebufferVSBytecode),
-                 &pInputLayout)))
+                 &m_pInputLayout)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating input layout");
   }
@@ -253,27 +253,28 @@ Graphics::Graphics(HWNDKey& key)
   sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
   sampDesc.MinLOD = 0;
   sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-  if (FAILED(hr = pDevice->CreateSamplerState(&sampDesc, &pSamplerState)))
+  if (FAILED(hr = m_pDevice->CreateSamplerState(&sampDesc, &m_pSamplerState)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating sampler state");
   }
 
   // allocate memory for sysbuffer (16-byte aligned for faster access)
-  pSysBuffer = reinterpret_cast<Color*>(_aligned_malloc(
+  m_pSysBuffer = reinterpret_cast<Color*>(_aligned_malloc(
       sizeof(Color) * Graphics::ScreenWidth * Graphics::ScreenHeight, 16u));
 }
 
 Graphics::~Graphics()
 {
   // free sysbuffer memory (aligned free)
-  if (pSysBuffer)
+  if (m_pSysBuffer)
   {
-    _aligned_free(pSysBuffer);
-    pSysBuffer = nullptr;
+    _aligned_free(m_pSysBuffer);
+    m_pSysBuffer = nullptr;
   }
+
   // clear the state of the device context before destruction
-  if (pImmediateContext)
-    pImmediateContext->ClearState();
+  if (m_pImmediateContext)
+    m_pImmediateContext->ClearState();
 }
 
 void
@@ -282,48 +283,52 @@ Graphics::EndFrame()
   HRESULT hr;
 
   // lock and map the adapter memory for copying over the sysbuffer
-  if (FAILED(hr = pImmediateContext->Map(pSysBufferTexture.Get(),
+  if (FAILED(hr = m_pImmediateContext->Map(m_pSysBufferTexture.Get(),
                                          0u,
                                          D3D11_MAP_WRITE_DISCARD,
                                          0u,
-                                         &mappedSysBufferTexture)))
+                                         &m_mappedSysBufferTexture)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Mapping sysbuffer");
   }
   // setup parameters for copy operation
-  Color* pDst = reinterpret_cast<Color*>(mappedSysBufferTexture.pData);
-  const size_t dstPitch = mappedSysBufferTexture.RowPitch / sizeof(Color);
+  Color* pDst = reinterpret_cast<Color*>(m_mappedSysBufferTexture.pData);
+  const size_t dstPitch = m_mappedSysBufferTexture.RowPitch / sizeof(Color);
   const size_t srcPitch = Graphics::ScreenWidth;
   const size_t rowBytes = srcPitch * sizeof(Color);
   // perform the copy line-by-line
   for (size_t y = 0u; y < Graphics::ScreenHeight; y++)
   {
-    memcpy(&pDst[y * dstPitch], &pSysBuffer[y * srcPitch], rowBytes);
+    memcpy(&pDst[y * dstPitch], &m_pSysBuffer[y * srcPitch], rowBytes);
   }
   // release the adapter memory
-  pImmediateContext->Unmap(pSysBufferTexture.Get(), 0u);
+  m_pImmediateContext->Unmap(m_pSysBufferTexture.Get(), 0u);
 
   // render offscreen scene texture to back buffer
-  pImmediateContext->IASetInputLayout(pInputLayout.Get());
-  pImmediateContext->VSSetShader(pVertexShader.Get(), nullptr, 0u);
-  pImmediateContext->PSSetShader(pPixelShader.Get(), nullptr, 0u);
-  pImmediateContext->IASetPrimitiveTopology(
+  m_pImmediateContext->IASetInputLayout(m_pInputLayout.Get());
+  m_pImmediateContext->VSSetShader(m_pVertexShader.Get(), nullptr, 0u);
+
+  m_pImmediateContext->PSSetShader(m_pPixelShader.Get(), nullptr, 0u);
+  m_pImmediateContext->IASetPrimitiveTopology(
       D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
   const UINT stride = sizeof(FSQVertex);
   const UINT offset = 0u;
-  pImmediateContext->IASetVertexBuffers(
-      0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
-  pImmediateContext->PSSetShaderResources(
-      0u, 1u, pSysBufferTextureView.GetAddressOf());
-  pImmediateContext->PSSetSamplers(0u, 1u, pSamplerState.GetAddressOf());
-  pImmediateContext->Draw(6u, 0u);
+
+  m_pImmediateContext->IASetVertexBuffers(
+      0u, 1u, m_pVertexBuffer.GetAddressOf(), &stride, &offset);
+
+  m_pImmediateContext->PSSetShaderResources(
+      0u, 1u, m_pSysBufferTextureView.GetAddressOf());
+  m_pImmediateContext->PSSetSamplers(0u, 1u, m_pSamplerState.GetAddressOf());
+  m_pImmediateContext->Draw(6u, 0u);
 
   // flip back/front buffers
-  if (FAILED(hr = pSwapChain->Present(1u, 0u)))
+  if (FAILED(hr = m_pSwapChain->Present(1u, 0u)))
   {
     if (hr == DXGI_ERROR_DEVICE_REMOVED)
     {
-      throw CHILI_GFX_EXCEPTION(pDevice->GetDeviceRemovedReason(),
+      throw CHILI_GFX_EXCEPTION(m_pDevice->GetDeviceRemovedReason(),
                                 L"Presenting back buffer [device removed]");
     }
     else
@@ -337,7 +342,7 @@ void
 Graphics::BeginFrame()
 {
   // clear the sysbuffer
-  memset(pSysBuffer,
+  memset(m_pSysBuffer,
          0u,
          sizeof(Color) * Graphics::ScreenHeight * Graphics::ScreenWidth);
 }
@@ -347,9 +352,11 @@ Graphics::PutPixel(int x, int y, Color c)
 {
   assert(x >= 0);
   assert(x < int(Graphics::ScreenWidth));
+
   assert(y >= 0);
   assert(y < int(Graphics::ScreenHeight));
-  pSysBuffer[Graphics::ScreenWidth * y + x] = c;
+
+  m_pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
 //////////////////////////////////////////////////
@@ -368,9 +375,12 @@ Graphics::Exception::GetFullMessage() const
 {
   const std::wstring empty = L"";
   const std::wstring errorName = GetErrorName();
+
   const std::wstring errorDesc = GetErrorDescription();
   const std::wstring& note = GetNote();
+
   const std::wstring location = GetLocation();
+
   return (!errorName.empty() ? std::wstring(L"Error: ") + errorName + L"\n"
                              : empty) +
          (!errorDesc.empty()

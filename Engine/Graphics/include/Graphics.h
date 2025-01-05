@@ -90,28 +90,28 @@ public:
   void
   PutPixel(int x, int y, Color c);
 
+private:
+  Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
+  Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice{};
 
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pImmediateContext{};
+  Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRenderTargetView{};
+  
+  Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
+  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSysBufferTextureView{};
+
+  Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pPixelShader{};
+  Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader{};
+
+  Microsoft::WRL::ComPtr<ID3D11Buffer> m_pVertexBuffer{};
+  Microsoft::WRL::ComPtr<ID3D11InputLayout> m_pInputLayout{};
+
+  Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState{};
+  D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
+
+  Color* m_pSysBuffer{};
+
+public:
   static constexpr int ScreenWidth{800};
   static constexpr int ScreenHeight{600};
-
-private:
-  Microsoft::WRL::ComPtr<IDXGISwapChain> pSwapChain{};
-  Microsoft::WRL::ComPtr<ID3D11Device> pDevice{};
-
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> pImmediateContext{};
-  Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pRenderTargetView{};
-  
-  Microsoft::WRL::ComPtr<ID3D11Texture2D> pSysBufferTexture{};
-  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView{};
-
-  Microsoft::WRL::ComPtr<ID3D11PixelShader> pPixelShader{};
-  Microsoft::WRL::ComPtr<ID3D11VertexShader> pVertexShader{};
-
-  Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer{};
-  Microsoft::WRL::ComPtr<ID3D11InputLayout> pInputLayout{};
-
-  Microsoft::WRL::ComPtr<ID3D11SamplerState> pSamplerState{};
-  D3D11_MAPPED_SUBRESOURCE mappedSysBufferTexture{};
-
-  Color* pSysBuffer{};
 };
