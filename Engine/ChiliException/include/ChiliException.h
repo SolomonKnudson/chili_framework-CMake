@@ -28,30 +28,31 @@ public:
   ChiliException(const wchar_t* file,
                  unsigned int line,
                  const std::wstring& note = L"")
-    : note(note)
-    , file(file)
-    , line(line)
+    : m_note(note)
+    , m_file(file)
+    , m_line(line)
   {
   }
   const std::wstring&
   GetNote() const
   {
-    return note;
+    return m_note;
   }
   const std::wstring&
   GetFile() const
   {
-    return file;
+    return m_file;
   }
   unsigned int
   GetLine() const
   {
-    return line;
+    return m_line;
   }
   std::wstring
   GetLocation() const
   {
-    return std::wstring(L"Line [") + std::to_wstring(line) + L"] in " + file;
+    return std::wstring(L"Line [") + std::to_wstring(m_line) + L"] in " +
+           m_file;
   }
   virtual std::wstring
   GetFullMessage() const = 0;
@@ -59,8 +60,8 @@ public:
   GetExceptionType() const = 0;
 
 private:
-  std::wstring note;
-  std::wstring file;
-  unsigned int line;
+  std::wstring m_note;
+  std::wstring m_file;
+  unsigned int m_line;
 };
 #endif // !CHILIEXCEPTION_H

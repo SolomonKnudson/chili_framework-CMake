@@ -23,21 +23,18 @@
 class Color
 {
 public:
-  unsigned int dword;
-
-public:
   constexpr Color()
-    : dword()
+    : m_dword()
   {
   }
 
   constexpr Color(const Color& col)
-    : dword(col.dword)
+    : m_dword(col.m_dword)
   {
   }
 
   constexpr Color(unsigned int dw)
-    : dword(dw)
+    : m_dword(dw)
   {
   }
 
@@ -45,31 +42,31 @@ public:
                   unsigned char r,
                   unsigned char g,
                   unsigned char b)
-    : dword((x << 24u) | (r << 16u) | (g << 8u) | b)
+    : m_dword((x << 24u) | (r << 16u) | (g << 8u) | b)
   {
   }
 
   constexpr Color(unsigned char r, unsigned char g, unsigned char b)
-    : dword((r << 16u) | (g << 8u) | b)
+    : m_dword((r << 16u) | (g << 8u) | b)
   {
   }
 
   constexpr Color(Color col, unsigned char x)
-    : Color((x << 24u) | col.dword)
+    : Color((x << 24u) | col.m_dword)
   {
   }
 
   Color&
   operator=(Color color)
   {
-    dword = color.dword;
+    m_dword = color.m_dword;
     return *this;
   }
 
   constexpr unsigned char
   GetX() const
   {
-    return dword >> 24u;
+    return m_dword >> 24u;
   }
 
   constexpr unsigned char
@@ -81,25 +78,25 @@ public:
   constexpr unsigned char
   GetR() const
   {
-    return (dword >> 16u) & 0xFFu;
+    return (m_dword >> 16u) & 0xFFu;
   }
 
   constexpr unsigned char
   GetG() const
   {
-    return (dword >> 8u) & 0xFFu;
+    return (m_dword >> 8u) & 0xFFu;
   }
 
   constexpr unsigned char
   GetB() const
   {
-    return dword & 0xFFu;
+    return m_dword & 0xFFu;
   }
 
   void
   SetX(unsigned char x)
   {
-    dword = (dword & 0xFFFFFFu) | (x << 24u);
+    m_dword = (m_dword & 0xFFFFFFu) | (x << 24u);
   }
 
   void
@@ -111,21 +108,24 @@ public:
   void
   SetR(unsigned char r)
   {
-    dword = (dword & 0xFF00FFFFu) | (r << 16u);
+    m_dword = (m_dword & 0xFF00FFFFu) | (r << 16u);
   }
 
   void
 
   SetG(unsigned char g)
   {
-    dword = (dword & 0xFFFF00FFu) | (g << 8u);
+    m_dword = (m_dword & 0xFFFF00FFu) | (g << 8u);
   }
 
   void
   SetB(unsigned char b)
   {
-    dword = (dword & 0xFFFFFF00u) | b;
+    m_dword = (m_dword & 0xFFFFFF00u) | b;
   }
+
+private:
+  unsigned int m_dword{};
 };
 
 namespace Colors

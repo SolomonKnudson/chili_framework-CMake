@@ -10,5 +10,5 @@ public:
   ~COMInitializer();
 
 private:
-  HRESULT hr;
+  HRESULT m_hr{};
 };
