@@ -26,6 +26,7 @@ MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
   : m_mouse{}
   , m_kbd{}
   , m_args{pArgs}
+  , m_hWnd{}
   , m_hInst{hInst}
 {
   // register window class

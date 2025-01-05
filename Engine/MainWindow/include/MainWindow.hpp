@@ -30,24 +30,7 @@
 #include "Graphics/include/Graphics.hpp"
 #include <string>
 
-// for granting special access to hWnd only for Graphics constructor
-class HWNDKey
-{
-  friend Graphics::Graphics(HWNDKey&);
-
-public:
-  HWNDKey(const HWNDKey&) = delete;
-  HWNDKey&
-  operator=(HWNDKey&) = delete;
-
-protected:
-  HWNDKey() = default;
-
-protected:
-  HWND m_hWnd{};
-};
-
-class MainWindow : public HWNDKey
+class MainWindow
 {
 public:
   class Exception : public ChiliException
@@ -68,13 +51,18 @@ public:
 
   MainWindow(HINSTANCE hInst, wchar_t* pArgs);
   MainWindow(const MainWindow&) = delete;
+
   MainWindow&
   operator=(const MainWindow&) = delete;
+
   ~MainWindow();
+
   bool
   IsActive() const;
+
   bool
   IsMinimized() const;
+
   void
   ShowMessageBox(const std::wstring& title,
                  const std::wstring& message,
@@ -88,11 +76,18 @@ public:
   // returns false if quitting
   bool
   ProcessMessage();
+
   const std::wstring&
   GetArgs() const
   {
     return m_args;
   }
+
+  HWND
+  key() const
+  {
+    return m_hWnd;
+  };
 
 private:
   static LRESULT WINAPI
@@ -108,6 +103,8 @@ public:
 
 private:
   std::wstring m_args{};
+  HWND m_hWnd{};
+
   HINSTANCE m_hInst{};
   static constexpr wchar_t* m_wndClassName{L"Chili DirectX Framework Window"};
 };
