@@ -38,7 +38,7 @@ Game::Go()
 void
 Game::UpdateModel()
 {
-  gfx.PutPixel(50, 50, Color{255, 0, 0});
+  gfx.PutPixel(50, 50, Colors::Red);
 }
 
 void
