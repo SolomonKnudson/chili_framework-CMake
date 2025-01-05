@@ -99,7 +99,13 @@ private:
   init(HWND Key);
 
   void
-  create_device_and_swap_chain(HWND key);
+  Graphics::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc);
+
+  void
+  create_view_on_back_buffer(HRESULT hr);
+
+  void
+  Graphics::set_viewport_dimensions(const D3D11_VIEWPORT& vp);
 
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
   Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
