@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.5)
+
+add_library(FrameBuffers INTERFACE 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/FramebufferPS.shh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/FramebufferVS.shh
+)
+
+target_include_directories(FrameBuffers INTERFACE
+	${CMAKE_SOURCE_DIR}/Engine/
+)
