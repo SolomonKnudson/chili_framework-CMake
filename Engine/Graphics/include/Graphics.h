@@ -18,7 +18,9 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#pragma once
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
+
 #include "CHiliException/include/ChiliException.h"
 #include "ChiliWin/include/ChiliWin.h"
 #include "Colors/include/Colors.h"
@@ -53,7 +55,8 @@ public:
   };
 
 private:
-  // vertex format for the framebuffer fullscreen textured quad
+  // vertex format for the framebuffer
+  // fullscreen textured quad
   struct FSQVertex
   {
     //position
@@ -63,7 +66,7 @@ private:
 
     //texcoords
     float u{};
-    float v{};    // texcoords
+    float v{};
   };
 
 public:
@@ -115,3 +118,5 @@ public:
   static constexpr int ScreenWidth{800};
   static constexpr int ScreenHeight{600};
 };
+
+#endif // !GRAPHICS_H
