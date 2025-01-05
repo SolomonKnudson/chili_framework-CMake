@@ -1,4 +1,5 @@
-#include "Graphics/include/GraphicsUtil.h"
+#include "Graphics/include/Graphics.h"
+
 namespace GraphicsUtil
 {
 } // namespace GraphicsUtil

@@ -24,6 +24,7 @@
 #include "CHiliException/include/ChiliException.h"
 #include "Colors/include/Colors.h"
 #include "Graphics/include/GraphicsUtil.h"
+
 #include <d3d11.h>
 #include <wrl.h>
 

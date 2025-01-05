@@ -21,7 +21,8 @@
 #include "Graphics/include/Graphics.h"
 #include "ChiliException/include/ChiliException.h"
 #include "DXErr/include/DXErr.h"
-#include "MainWindow/include/MainWindow.h"
+#include "MainWindow/include/MainWindow.h" //Must be included here
+
 #include <array>
 #include <assert.h>
 #include <string>
@@ -33,11 +34,6 @@ namespace FramebufferShaders
 #include "FrameBuffers/include/FramebufferPS.shh"
 #include "FrameBuffers/include/FramebufferVS.shh"
 } // namespace FramebufferShaders
-
-#pragma comment(lib, "d3d11.lib")
-
-#define CHILI_GFX_EXCEPTION(hr, note)                                          \
-  Graphics::Exception(hr, note, _CRT_WIDE(__FILE__), __LINE__)
 
 using Microsoft::WRL::ComPtr;
 
@@ -86,7 +82,6 @@ Graphics::Graphics(HWNDKey& key)
   , m_pSysBuffer{}
 {
   assert(key.hWnd != nullptr);
-
   //////////////////////////////////////////////////////
   // create device and swap chain/get render target view
   DXGI_SWAP_CHAIN_DESC sd = {};
