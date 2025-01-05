@@ -37,7 +37,6 @@ Graphics::init(const HWND key)
   // create a view on backbuffer that we can render to
   create_view_on_back_buffer(hr);
 
-  // set viewport dimensions
   set_viewport_dimensions({0.0f,                                      //TopLeftX
                            0.0f,                                      //TopLeftY
                            static_cast<float>(Graphics::ScreenWidth), //Width
@@ -66,39 +65,11 @@ Graphics::init(const HWND key)
   srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
   srvDesc.Texture2D.MipLevels = 1;
 
-  // create the resource view on the texture
-  if (GraphicsUtil::failed(
-          hr = m_pDevice->CreateShaderResourceView(
-              m_pSysBufferTexture.Get(), &srvDesc, &m_pSysBufferTextureView)))
-  {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating view on sysBuffer texture");
-  }
+  create_resource_view_on_texture(srvDesc, hr);
 
-  ////////////////////////////////////////////////
-  // create pixel shader for framebuffer
-  // Ignore the intellisense error "namespace has no member"
-  if (GraphicsUtil::failed(
-          hr = m_pDevice->CreatePixelShader(
-              FramebufferShaders::FramebufferPSBytecode,
-              sizeof(FramebufferShaders::FramebufferPSBytecode),
-              nullptr,
-              &m_pPixelShader)))
-  {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating pixel shader");
-  }
+  create_pixel_shader_for_framebuffer(hr);
 
-  /////////////////////////////////////////////////
-  // create vertex shader for framebuffer
-  // Ignore the intellisense error "namespace has no member"
-  if (GraphicsUtil::failed(
-          hr = m_pDevice->CreateVertexShader(
-              FramebufferShaders::FramebufferVSBytecode,
-              sizeof(FramebufferShaders::FramebufferVSBytecode),
-              nullptr,
-              &m_pVertexShader)))
-  {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex shader");
-  }
+  create_vertex_shader_for_framebuffer(hr);
 
   //////////////////////////////////////////////////////////////
   // create and fill vertex buffer with quad for rendering frame
