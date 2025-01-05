@@ -107,6 +107,10 @@ private:
   void
   Graphics::set_viewport_dimensions(const D3D11_VIEWPORT& vp);
 
+  void
+  create_texture_for_cpu_render_target(const D3D11_TEXTURE2D_DESC& sysTexDesc,
+                                       HRESULT hr);
+
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
   Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
 
