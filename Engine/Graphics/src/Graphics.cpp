@@ -59,7 +59,7 @@ Graphics::Graphics()
 {
 }
 
-Graphics::Graphics(HWNDKey& key)
+Graphics::Graphics(HWND key)
   : m_pSwapChain{}
   , m_pDevice{}
 
@@ -80,48 +80,14 @@ Graphics::Graphics(HWNDKey& key)
 
   , m_pSysBuffer{}
 {
-  assert(key.m_hWnd != nullptr);
+
+  assert(key);
+
   //////////////////////////////////////////////////////
   // create device and swap chain/get render target view
-  DXGI_SWAP_CHAIN_DESC sd = {};
-  sd.BufferCount = 1;
-  sd.BufferDesc.Width = Graphics::ScreenWidth;
-  sd.BufferDesc.Height = Graphics::ScreenHeight;
-  sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-  sd.BufferDesc.RefreshRate.Numerator = 1;
-  sd.BufferDesc.RefreshRate.Denominator = 60;
-  sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-  sd.OutputWindow = key.m_hWnd;
-  sd.SampleDesc.Count = 1;
-  sd.SampleDesc.Quality = 0;
-  sd.Windowed = TRUE;
+  create_device_and_swap_chain(key);
 
   HRESULT hr{};
-  UINT createFlags{0u};
-
-#ifdef CHILI_USE_D3D_DEBUG_LAYER
-#ifdef _DEBUG
-  createFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
-#endif
-
-  // create device and front/back buffers
-  if (GraphicsUtil::failed(
-          hr = D3D11CreateDeviceAndSwapChain(nullptr,
-                                             D3D_DRIVER_TYPE_HARDWARE,
-                                             nullptr,
-                                             createFlags,
-                                             nullptr,
-                                             0,
-                                             D3D11_SDK_VERSION,
-                                             &sd,
-                                             &m_pSwapChain,
-                                             &m_pDevice,
-                                             nullptr,
-                                             &m_pImmediateContext)))
-  {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating device and swap chain");
-  }
 
   // get handle to backbuffer
   ComPtr<ID3D11Resource> pBackBuffer{};
@@ -145,29 +111,28 @@ Graphics::Graphics(HWNDKey& key)
       1, m_pRenderTargetView.GetAddressOf(), nullptr);
 
   // set viewport dimensions
-  D3D11_VIEWPORT vp;
-  vp.Width = float(Graphics::ScreenWidth);
-  vp.Height = float(Graphics::ScreenHeight);
-  vp.MinDepth = 0.0f;
-  vp.MaxDepth = 1.0f;
-  vp.TopLeftX = 0.0f;
-  vp.TopLeftY = 0.0f;
+  D3D11_VIEWPORT vp{0.0f,                                       //TopLeftX
+                    0.0f,                                       //TopLeftY
+                    static_cast<float>(Graphics::ScreenWidth),  //Width
+                    static_cast<float>(Graphics::ScreenHeight), //Height
+                    0.0f,                                       //MinDepth
+                    1.0f};                                      //MaxDepth
+
   m_pImmediateContext->RSSetViewports(1, &vp);
 
   ///////////////////////////////////////
   // create texture for cpu render target
-  D3D11_TEXTURE2D_DESC sysTexDesc;
-  sysTexDesc.Width = Graphics::ScreenWidth;
-  sysTexDesc.Height = Graphics::ScreenHeight;
-  sysTexDesc.MipLevels = 1;
-  sysTexDesc.ArraySize = 1;
-  sysTexDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-  sysTexDesc.SampleDesc.Count = 1;
-  sysTexDesc.SampleDesc.Quality = 0;
-  sysTexDesc.Usage = D3D11_USAGE_DYNAMIC;
-  sysTexDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-  sysTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-  sysTexDesc.MiscFlags = 0;
+  D3D11_TEXTURE2D_DESC sysTexDesc{Graphics::ScreenWidth,      //Width
+                                  Graphics::ScreenHeight,     //Height
+                                  1,                          //MipLevels
+                                  1,                          //ArraySize
+                                  DXGI_FORMAT_B8G8R8A8_UNORM, //Format
+                                  {1, 0}, //SampleDesc: {Count, Quality}
+                                  D3D11_USAGE_DYNAMIC,        //Usage
+                                  D3D11_BIND_SHADER_RESOURCE, //BindFlags
+                                  D3D11_CPU_ACCESS_WRITE,     //CPUAccessFlags
+                                  0};                         //MiscFlags
+
   // create the texture
   if (GraphicsUtil::failed(hr = m_pDevice->CreateTexture2D(
                                &sysTexDesc, nullptr, &m_pSysBufferTexture)))
@@ -175,10 +140,12 @@ Graphics::Graphics(HWNDKey& key)
     throw CHILI_GFX_EXCEPTION(hr, L"Creating sysbuffer texture");
   }
 
-  D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+  D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+
   srvDesc.Format = sysTexDesc.Format;
   srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
   srvDesc.Texture2D.MipLevels = 1;
+
   // create the resource view on the texture
   if (GraphicsUtil::failed(
           hr = m_pDevice->CreateShaderResourceView(
@@ -223,13 +190,16 @@ Graphics::Graphics(HWNDKey& key)
       {1.0f, -1.0f, 0.5f, 1.0f, 1.0f},
       {-1.0f, -1.0f, 0.5f, 0.0f, 1.0f},
   };
-  D3D11_BUFFER_DESC bd = {};
-  bd.Usage = D3D11_USAGE_DEFAULT;
-  bd.ByteWidth = sizeof(FSQVertex) * 6;
-  bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-  bd.CPUAccessFlags = 0u;
+  D3D11_BUFFER_DESC bd{(sizeof(FSQVertex) * 6),  //ByteWidth
+                       D3D11_USAGE_DEFAULT,      //Usage
+                       D3D11_BIND_VERTEX_BUFFER, //BindFlags
+                       0u,                       //CPUAccessFlags
+                       {},                       //MiscFlags
+                       {}};                      //StructureByteStride
+
   D3D11_SUBRESOURCE_DATA initData = {};
   initData.pSysMem = vertices;
+
   if (GraphicsUtil::failed(
           hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
   {
@@ -388,7 +358,7 @@ Graphics::Exception::Exception(HRESULT hr,
                                const wchar_t* file,
                                unsigned int line)
   : ChiliException(file, line, note)
-  , hr(hr)
+  , m_hr(hr)
 {
 }
 
@@ -415,14 +385,15 @@ Graphics::Exception::GetFullMessage() const
 std::wstring
 Graphics::Exception::GetErrorName() const
 {
-  return DXGetErrorString(hr);
+  return DXGetErrorString(m_hr);
 }
 
 std::wstring
 Graphics::Exception::GetErrorDescription() const
 {
-  std::array<wchar_t, 512> wideDescription;
-  DXGetErrorDescription(hr, wideDescription.data(), wideDescription.size());
+  std::array<wchar_t, 512> wideDescription{};
+  DXGetErrorDescription(m_hr, wideDescription.data(), wideDescription.size());
+
   return wideDescription.data();
 }
 

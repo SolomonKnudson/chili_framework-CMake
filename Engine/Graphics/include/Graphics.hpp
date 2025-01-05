@@ -52,7 +52,7 @@ public:
     GetExceptionType() const override;
 
   private:
-    HRESULT hr{};
+    HRESULT m_hr{};
   };
 
 private:
@@ -72,7 +72,7 @@ private:
 
 public:
   Graphics();
-  Graphics(class HWNDKey& key);
+  Graphics(HWND key);
   Graphics(const Graphics&) = delete;
   ~Graphics();
 
@@ -95,23 +95,26 @@ public:
   PutPixel(int x, int y, Color c);
 
 private:
-  Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
-  Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice{};
+  void
+  create_device_and_swap_chain(HWND key);
 
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pImmediateContext{};
-  Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRenderTargetView{};
-
-  Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
-  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSysBufferTextureView{};
-
-  Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pPixelShader{};
-  Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader{};
-
-  Microsoft::WRL::ComPtr<ID3D11Buffer> m_pVertexBuffer{};
-  Microsoft::WRL::ComPtr<ID3D11InputLayout> m_pInputLayout{};
-
-  Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState{};
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
+  Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
+
+  Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice{};
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pImmediateContext{};
+
+  Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRenderTargetView{};
+  Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
+
+  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSysBufferTextureView{};
+  Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pPixelShader{};
+
+  Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader{};
+  Microsoft::WRL::ComPtr<ID3D11Buffer> m_pVertexBuffer{};
+
+  Microsoft::WRL::ComPtr<ID3D11InputLayout> m_pInputLayout{};
+  Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState{};
 
   Color* m_pSysBuffer{};
 

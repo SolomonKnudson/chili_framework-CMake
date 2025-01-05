@@ -22,7 +22,7 @@
 #include "Game/include/Game.hpp"
 #include "MainWindow/include/MainWindow.hpp"
 
-static int WINAPI
+int WINAPI
 wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
 {
   try
