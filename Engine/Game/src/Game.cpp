@@ -1,6 +1,6 @@
 /****************************************************************************************** 
  *	Chili DirectX Framework Version 16.07.20											  *	
- *	Game.h																				  *
+ *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
  *	This file is part of The Chili DirectX Framework.									  *
@@ -18,29 +18,30 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#pragma once
+#include "Game/include/Game.h"
 
-#include "Keyboard.h"
-#include "Mouse.h"
-#include "Graphics.h"
-
-class Game
+Game::Game(MainWindow& wnd)
+  : wnd(wnd)
+  , gfx(wnd)
 {
-public:
-	Game( class MainWindow& wnd );
-	Game( const Game& ) = delete;
-	Game& operator=( const Game& ) = delete;
-	void Go();
-private:
-	void ComposeFrame();
-	void UpdateModel();
-	/********************************/
-	/*  User Functions              */
-	/********************************/
-private:
-	MainWindow& wnd;
-	Graphics gfx;
-	/********************************/
-	/*  User Variables              */
-	/********************************/
-};
+}
+
+void
+Game::Go()
+{
+  gfx.BeginFrame();
+  UpdateModel();
+  ComposeFrame();
+  gfx.EndFrame();
+}
+
+void
+Game::UpdateModel()
+{
+  gfx.PutPixel(50, 50, Color{255, 0, 0});
+}
+
+void
+Game::ComposeFrame()
+{
+}
