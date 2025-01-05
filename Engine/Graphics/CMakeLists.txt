@@ -9,4 +9,17 @@ target_include_directories(Graphics PUBLIC
 	${CMAKE_SOURCE_DIR}/Engine
 )
 
-target_link_libraries(Graphics)
+target_link_libraries(Graphics 
+	d3d11.lib 
+	ChiliException 
+	Colors 
+	ChiliWin 
+	MainWindow
+)
+
+add_dependencies(Graphics	
+	ChiliException 
+	Colors 
+	ChiliWin 
+	MainWindow
+)

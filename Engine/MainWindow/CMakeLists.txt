@@ -8,4 +8,17 @@ target_include_directories(MainWindow PUBLIC
 	${CMAKE_SOURCE_DIR}/Engine/
 )
 
-target_link_libraries(MainWindow)
+target_link_libraries(MainWindow PUBLIC
+	ChiliException
+	ChiliWin
+	Graphics
+	Keyboard
+	Mouse
+)
+
+add_dependencies(MainWindow 
+	ChiliException 
+	ChiliWin 
+	Keyboard 
+	Mouse
+)
