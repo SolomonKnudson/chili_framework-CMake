@@ -18,9 +18,9 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#include "Graphics/include/Graphics.h"
-#include "DXErr/include/DXErr.h"
-#include "MainWindow/include/MainWindow.h" //Must be included here
+#include "Graphics/include/Graphics.hpp"
+#include "DXErr/include/DXErr.hpp"
+#include "MainWindow/include/MainWindow.hpp" //Must be included here
 
 #include <array>
 #include <assert.h>

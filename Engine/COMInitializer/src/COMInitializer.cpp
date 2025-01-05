@@ -1,4 +1,4 @@
-#include "COMInitializer/include/COMInitializer.h"
+#include "COMInitializer/include/COMInitializer.hpp"
 #include <objbase.h>
 
 COMInitializer::COMInitializer()

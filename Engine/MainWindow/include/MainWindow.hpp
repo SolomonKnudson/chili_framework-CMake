@@ -21,13 +21,13 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include "ChiliException/include/ChiliException.h"
-#include "ChiliWin/include/ChiliWin.h"
+#include "ChiliException/include/ChiliException.hpp"
+#include "ChiliWin/include/ChiliWin.hpp"
 
-#include "Keyboard/include/Keyboard.h"
-#include "Mouse/include/Mouse.h"
+#include "Keyboard/include/Keyboard.hpp"
+#include "Mouse/include/Mouse.hpp"
 
-#include "Graphics/include/Graphics.h"
+#include "Graphics/include/Graphics.hpp"
 #include <string>
 
 // for granting special access to hWnd only for Graphics constructor

@@ -1,6 +1,6 @@
 #ifndef CONINITIALIZER_H
 #define CONINITIALIZER_H
-#include "ChiliWin/include/ChiliWin.h"
+#include "ChiliWin/include/ChiliWin.hpp"
 
 class COMInitializer
 {

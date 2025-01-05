@@ -21,9 +21,9 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "CHiliException/include/ChiliException.h"
-#include "Colors/include/Colors.h"
-#include "Graphics/include/GraphicsUtil.h"
+#include "CHiliException/include/ChiliException.hpp"
+#include "Colors/include/Colors.hpp"
+#include "Graphics/include/GraphicsUtil.hpp"
 
 #include <d3d11.h>
 #include <wrl.h>

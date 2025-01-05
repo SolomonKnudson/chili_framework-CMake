@@ -13,7 +13,7 @@
 
 // This version only supports UNICODE.
 
-#include "DXErr/include/DXErr.h"
+#include "DXErr/include/DXErr.hpp"
 #include <algorithm>
 #include <stdio.h>
 

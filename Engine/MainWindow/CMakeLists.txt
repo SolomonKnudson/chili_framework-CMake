@@ -16,7 +16,6 @@ target_link_libraries(MainWindow PUBLIC
 	Mouse
 )
 
-
 target_link_libraries(MainWindow PRIVATE
 	Resource
 )
