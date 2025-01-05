@@ -18,7 +18,9 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#pragma once
+#ifndef MOUSE_H
+#define MOUSE_H
+
 #include <queue>
 
 class Mouse
@@ -41,65 +43,71 @@ public:
       Invalid
     };
 
-  private:
-    Type type;
-    bool leftIsPressed;
-    bool rightIsPressed;
-    int x;
-    int y;
-
-  public:
     Event()
-      : type(Type::Invalid)
-      , leftIsPressed(false)
-      , rightIsPressed(false)
-      , x(0)
-      , y(0)
+      : m_type{Type::Invalid}
+      , m_leftIsPressed{}
+      , m_rightIsPressed{}
+      , m_x{}
+      , m_y{}
     {
     }
     Event(Type type, const Mouse& parent)
-      : type(type)
-      , leftIsPressed(parent.leftIsPressed)
-      , rightIsPressed(parent.rightIsPressed)
-      , x(parent.x)
-      , y(parent.y)
+      : m_type{type}
+      , m_leftIsPressed{parent.leftIsPressed}
+      , m_rightIsPressed{parent.rightIsPressed}
+      , m_x{parent.x}
+      , m_y{parent.y}
     {
     }
+
     bool
     IsValid() const
     {
-      return type != Type::Invalid;
+      return m_type != Type::Invalid;
     }
+
     Type
     GetType() const
     {
-      return type;
+      return m_type;
     }
+
     std::pair<int, int>
     GetPos() const
     {
-      return {x, y};
+      return {m_x, m_y};
     }
+
     int
     GetPosX() const
     {
-      return x;
+      return m_x;
     }
+
     int
     GetPosY() const
     {
-      return y;
+      return m_y;
     }
+
     bool
     LeftIsPressed() const
     {
-      return leftIsPressed;
+      return m_leftIsPressed;
     }
+
     bool
     RightIsPressed() const
     {
-      return rightIsPressed;
+      return m_rightIsPressed;
     }
+
+  private:
+    Type m_type{};
+    bool m_leftIsPressed{};
+    bool m_rightIsPressed{};
+    int m_x{};
+    int m_y{};
   };
 
 public:
@@ -152,11 +160,14 @@ private:
   TrimBuffer();
 
 private:
-  static constexpr unsigned int bufferSize = 4u;
-  int x;
-  int y;
-  bool leftIsPressed = false;
-  bool rightIsPressed = false;
-  bool isInWindow = false;
-  std::queue<Event> buffer;
+  std::queue<Event> buffer{};
+  static constexpr unsigned int bufferSize{4u};
+  int x{};
+  int y{};
+
+  bool leftIsPressed{false};
+  bool rightIsPressed{false};
+
+  bool isInWindow{};
 };
+#endif // !MOUSE_H
