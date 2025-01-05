@@ -20,7 +20,6 @@
 ******************************************************************************************/
 #include "MainWindow/include/MainWindow.h"
 #include "Resource/include/Resource.h"
-
 #include <assert.h>
 
 MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)

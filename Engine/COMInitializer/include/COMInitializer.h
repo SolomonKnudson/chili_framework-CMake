@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef CONINITIALIZER_H
+#define CONINITIALIZER_H
 #include "ChiliWin/include/ChiliWin.h"
 
 class COMInitializer
@@ -12,3 +12,4 @@ public:
 private:
   HRESULT m_hr{};
 };
+#endif // !CONINITIALIZER_H
