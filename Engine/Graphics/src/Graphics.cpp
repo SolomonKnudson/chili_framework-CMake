@@ -44,27 +44,46 @@ using Microsoft::WRL::ComPtr;
 Graphics::Graphics()
   : m_pSwapChain{}
   , m_pDevice{}
-    
+
   , m_pImmediateContext{}
   , m_pRenderTargetView{}
-   
+
   , m_pSysBufferTexture{}
   , m_pSysBufferTextureView{}
-   
+
   , m_pPixelShader{}
   , m_pVertexShader{}
-    
+
   , m_pVertexBuffer{}
   , m_pInputLayout{}
-   
+
   , m_pSamplerState{}
   , m_mappedSysBufferTexture{}
-    
-  , m_pSysBuffer{}
-{}
 
+  , m_pSysBuffer{}
+{
+}
 
 Graphics::Graphics(HWNDKey& key)
+  : m_pSwapChain{}
+  , m_pDevice{}
+
+  , m_pImmediateContext{}
+  , m_pRenderTargetView{}
+
+  , m_pSysBufferTexture{}
+  , m_pSysBufferTextureView{}
+
+  , m_pPixelShader{}
+  , m_pVertexShader{}
+
+  , m_pVertexBuffer{}
+  , m_pInputLayout{}
+
+  , m_pSamplerState{}
+  , m_mappedSysBufferTexture{}
+
+  , m_pSysBuffer{}
 {
   assert(key.hWnd != nullptr);
 
@@ -83,8 +102,9 @@ Graphics::Graphics(HWNDKey& key)
   sd.SampleDesc.Quality = 0;
   sd.Windowed = TRUE;
 
-  HRESULT hr;
-  UINT createFlags = 0u;
+  HRESULT hr{};
+  UINT createFlags{0u};
+
 #ifdef CHILI_USE_D3D_DEBUG_LAYER
 #ifdef _DEBUG
   createFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -92,33 +112,36 @@ Graphics::Graphics(HWNDKey& key)
 #endif
 
   // create device and front/back buffers
-  if (FAILED(hr = D3D11CreateDeviceAndSwapChain(nullptr,
-                                                D3D_DRIVER_TYPE_HARDWARE,
-                                                nullptr,
-                                                createFlags,
-                                                nullptr,
-                                                0,
-                                                D3D11_SDK_VERSION,
-                                                &sd,
-                                                &m_pSwapChain,
-                                                &m_pDevice,
-                                                nullptr,
-                                                &m_pImmediateContext)))
+  if (GraphicsUtil::failed(
+          hr = D3D11CreateDeviceAndSwapChain(nullptr,
+                                             D3D_DRIVER_TYPE_HARDWARE,
+                                             nullptr,
+                                             createFlags,
+                                             nullptr,
+                                             0,
+                                             D3D11_SDK_VERSION,
+                                             &sd,
+                                             &m_pSwapChain,
+                                             &m_pDevice,
+                                             nullptr,
+                                             &m_pImmediateContext)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating device and swap chain");
   }
 
   // get handle to backbuffer
   ComPtr<ID3D11Resource> pBackBuffer{};
-  if (FAILED(hr = m_pSwapChain->GetBuffer(
-                 0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer)))
+  if (GraphicsUtil::failed(
+          hr = m_pSwapChain->GetBuffer(
+              0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Getting back buffer");
   }
 
   // create a view on backbuffer that we can render to
-  if (FAILED(hr = m_pDevice->CreateRenderTargetView(
-                 pBackBuffer.Get(), nullptr, &m_pRenderTargetView)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreateRenderTargetView(
+              pBackBuffer.Get(), nullptr, &m_pRenderTargetView)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating render target view on backbuffer");
   }
@@ -152,8 +175,8 @@ Graphics::Graphics(HWNDKey& key)
   sysTexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
   sysTexDesc.MiscFlags = 0;
   // create the texture
-  if (FAILED(hr = m_pDevice->CreateTexture2D(
-                 &sysTexDesc, nullptr, &m_pSysBufferTexture)))
+  if (GraphicsUtil::failed(hr = m_pDevice->CreateTexture2D(
+                               &sysTexDesc, nullptr, &m_pSysBufferTexture)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating sysbuffer texture");
   }
@@ -163,8 +186,9 @@ Graphics::Graphics(HWNDKey& key)
   srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
   srvDesc.Texture2D.MipLevels = 1;
   // create the resource view on the texture
-  if (FAILED(hr = m_pDevice->CreateShaderResourceView(
-                 m_pSysBufferTexture.Get(), &srvDesc, &m_pSysBufferTextureView)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreateShaderResourceView(
+              m_pSysBufferTexture.Get(), &srvDesc, &m_pSysBufferTextureView)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating view on sysBuffer texture");
   }
@@ -172,11 +196,12 @@ Graphics::Graphics(HWNDKey& key)
   ////////////////////////////////////////////////
   // create pixel shader for framebuffer
   // Ignore the intellisense error "namespace has no member"
-  if (FAILED(hr = m_pDevice->CreatePixelShader(
-                 FramebufferShaders::FramebufferPSBytecode,
-                 sizeof(FramebufferShaders::FramebufferPSBytecode),
-                 nullptr,
-                 &m_pPixelShader)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreatePixelShader(
+              FramebufferShaders::FramebufferPSBytecode,
+              sizeof(FramebufferShaders::FramebufferPSBytecode),
+              nullptr,
+              &m_pPixelShader)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating pixel shader");
   }
@@ -184,11 +209,12 @@ Graphics::Graphics(HWNDKey& key)
   /////////////////////////////////////////////////
   // create vertex shader for framebuffer
   // Ignore the intellisense error "namespace has no member"
-  if (FAILED(hr = m_pDevice->CreateVertexShader(
-                 FramebufferShaders::FramebufferVSBytecode,
-                 sizeof(FramebufferShaders::FramebufferVSBytecode),
-                 nullptr,
-                 &m_pVertexShader)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreateVertexShader(
+              FramebufferShaders::FramebufferVSBytecode,
+              sizeof(FramebufferShaders::FramebufferVSBytecode),
+              nullptr,
+              &m_pVertexShader)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex shader");
   }
@@ -210,7 +236,8 @@ Graphics::Graphics(HWNDKey& key)
   bd.CPUAccessFlags = 0u;
   D3D11_SUBRESOURCE_DATA initData = {};
   initData.pSysMem = vertices;
-  if (FAILED(hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex buffer");
   }
@@ -253,7 +280,8 @@ Graphics::Graphics(HWNDKey& key)
   sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
   sampDesc.MinLOD = 0;
   sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-  if (FAILED(hr = m_pDevice->CreateSamplerState(&sampDesc, &m_pSamplerState)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreateSamplerState(&sampDesc, &m_pSamplerState)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating sampler state");
   }
@@ -284,10 +312,10 @@ Graphics::EndFrame()
 
   // lock and map the adapter memory for copying over the sysbuffer
   if (FAILED(hr = m_pImmediateContext->Map(m_pSysBufferTexture.Get(),
-                                         0u,
-                                         D3D11_MAP_WRITE_DISCARD,
-                                         0u,
-                                         &m_mappedSysBufferTexture)))
+                                           0u,
+                                           D3D11_MAP_WRITE_DISCARD,
+                                           0u,
+                                           &m_mappedSysBufferTexture)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Mapping sysbuffer");
   }
@@ -312,8 +340,8 @@ Graphics::EndFrame()
   m_pImmediateContext->IASetPrimitiveTopology(
       D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-  const UINT stride = sizeof(FSQVertex);
-  const UINT offset = 0u;
+  const UINT stride{sizeof(FSQVertex)};
+  const UINT offset{0u};
 
   m_pImmediateContext->IASetVertexBuffers(
       0u, 1u, m_pVertexBuffer.GetAddressOf(), &stride, &offset);
@@ -324,7 +352,7 @@ Graphics::EndFrame()
   m_pImmediateContext->Draw(6u, 0u);
 
   // flip back/front buffers
-  if (FAILED(hr = m_pSwapChain->Present(1u, 0u)))
+  if (GraphicsUtil::failed(hr = m_pSwapChain->Present(1u, 0u)))
   {
     if (hr == DXGI_ERROR_DEVICE_REMOVED)
     {

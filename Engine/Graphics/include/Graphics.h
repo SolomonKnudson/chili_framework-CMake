@@ -22,8 +22,8 @@
 #define GRAPHICS_H
 
 #include "CHiliException/include/ChiliException.h"
-#include "ChiliWin/include/ChiliWin.h"
 #include "Colors/include/Colors.h"
+#include "Graphics/include/GraphicsUtil.h"
 #include <d3d11.h>
 #include <wrl.h>
 
@@ -60,7 +60,7 @@ private:
   struct FSQVertex
   {
     //position
-    float x{}; 
+    float x{};
     float y{};
     float z{};
 
@@ -99,7 +99,7 @@ private:
 
   Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pImmediateContext{};
   Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRenderTargetView{};
-  
+
   Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
   Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSysBufferTextureView{};
 
