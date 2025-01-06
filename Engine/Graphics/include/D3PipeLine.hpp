@@ -1,6 +1,6 @@
 /******************************************************************************************
 *	Chili DirectX Framework Version 16.07.20											  *
-*	Graphics.h																			  *
+*	D3PipeLine.hpp																			  *
 *	Copyright 2016 PlanetChili <http://www.planetchili.net>								  *
 *																						  *
 *	This file is part of The Chili DirectX Framework.									  *
@@ -24,7 +24,6 @@
 #include "Colors/include/Colors.hpp"
 #include "Graphics/include/GraphicsUtil.hpp"
 
-#include <cassert>
 #include <d3d11.h>
 #include <wrl.h>
 

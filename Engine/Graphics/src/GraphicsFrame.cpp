@@ -1,6 +1,6 @@
 /******************************************************************************************
 *	Chili DirectX Framework Version 16.07.20											  *
-*	Graphics.cpp																		  *
+*	GraphicsFrame.cpp																		  *
 *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
 *																						  *
 *	This file is part of The Chili DirectX Framework.									  *
