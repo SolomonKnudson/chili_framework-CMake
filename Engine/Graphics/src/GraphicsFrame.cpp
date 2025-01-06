@@ -19,73 +19,7 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "Graphics/include/Graphics.hpp"
-#include "DXErr/include/DXErr.hpp"
-
-#include <array>
 #include <assert.h>
-#include <string>
-
-Graphics::Graphics()
-  : m_pSwapChain{}
-  , m_pDevice{}
-
-  , m_pImmediateContext{}
-  , m_pRenderTargetView{}
-
-  , m_pSysBufferTexture{}
-  , m_pSysBufferTextureView{}
-
-  , m_pPixelShader{}
-  , m_pVertexShader{}
-
-  , m_pVertexBuffer{}
-  , m_pInputLayout{}
-
-  , m_pSamplerState{}
-  , m_mappedSysBufferTexture{}
-
-  , m_pSysBuffer{}
-{
-}
-
-Graphics::Graphics(HWND wnd)
-  : m_pSwapChain{}
-  , m_pDevice{}
-
-  , m_pImmediateContext{}
-  , m_pRenderTargetView{}
-
-  , m_pSysBufferTexture{}
-  , m_pSysBufferTextureView{}
-
-  , m_pPixelShader{}
-  , m_pVertexShader{}
-
-  , m_pVertexBuffer{}
-  , m_pInputLayout{}
-
-  , m_pSamplerState{}
-  , m_mappedSysBufferTexture{}
-
-  , m_pSysBuffer{}
-{
-  assert(wnd);
-  init(wnd);
-}
-
-Graphics::~Graphics()
-{
-  // free sysbuffer memory (aligned free)
-  if (m_pSysBuffer)
-  {
-    _aligned_free(m_pSysBuffer);
-    m_pSysBuffer = nullptr;
-  }
-
-  // clear the state of the device context before destruction
-  if (m_pImmediateContext)
-    m_pImmediateContext->ClearState();
-}
 
 void
 Graphics::EndFrame()
@@ -149,22 +83,32 @@ Graphics::EndFrame()
 }
 
 void
-Graphics::BeginFrame()
+Graphics::flip_buffers(HRESULT hr)
 {
-  // clear the sysbuffer
-  memset(m_pSysBuffer,
-         0u,
-         sizeof(Color) * Graphics::ScreenHeight * Graphics::ScreenWidth);
+  if (GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
+  {
+    if (hr == DXGI_ERROR_DEVICE_REMOVED)
+    {
+      throw CHILI_GFX_EXCEPTION(m_PipeLine.m_pDevice->GetDeviceRemovedReason(),
+                                L"Presenting back buffer [device removed]");
+    }
+    else
+    {
+      throw CHILI_GFX_EXCEPTION(hr, L"Presenting back buffer");
+    }
+  }
 }
 
 void
-Graphics::PutPixel(int x, int y, Color c)
+Graphics::BeginFrame()
 {
-  assert(x >= 0);
-  assert(x < int(Graphics::ScreenWidth));
+  clear_sysbuffer();
+}
 
-  assert(y >= 0);
-  assert(y < int(Graphics::ScreenHeight));
-
-  m_pSysBuffer[Graphics::ScreenWidth * y + x] = c;
+void
+Graphics::clear_sysbuffer()
+{
+  memset(m_PipeLine.m_pSysBuffer,
+         0u,
+         sizeof(Color) * ScreenSize::Height * ScreenSize::Width);
 }

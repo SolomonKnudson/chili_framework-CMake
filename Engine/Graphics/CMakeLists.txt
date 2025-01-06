@@ -4,6 +4,7 @@ add_library(Graphics
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/GraphicsUtil.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/GraphicsCreate.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/GraphicsException.cpp
 )
 
 target_include_directories(Graphics PUBLIC
