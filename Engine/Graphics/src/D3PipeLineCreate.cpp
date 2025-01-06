@@ -1,7 +1,7 @@
 #include "Graphics/include/Graphics.hpp"
 
 void
-Graphics::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc)
+D3PipeLine::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc)
 {
   UINT createFlags{0u};
 
@@ -31,7 +31,7 @@ Graphics::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc)
 }
 
 void
-Graphics::create_view_on_back_buffer(HRESULT hr)
+D3PipeLine::create_view_on_back_buffer(HRESULT hr)
 {
   // get handle to backbuffer
   Microsoft::WRL::ComPtr<ID3D11Resource> pBackBuffer{};
@@ -57,7 +57,7 @@ Graphics::create_view_on_back_buffer(HRESULT hr)
 }
 
 void
-Graphics::create_texture_for_cpu_render_target(
+D3PipeLine::create_texture_for_cpu_render_target(
     const D3D11_TEXTURE2D_DESC& sysTexDesc, HRESULT hr)
 {
   // create the texture
@@ -69,7 +69,7 @@ Graphics::create_texture_for_cpu_render_target(
 }
 
 void
-Graphics::create_resource_view_on_texture(
+D3PipeLine::create_resource_view_on_texture(
     const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc, HRESULT hr)
 {
   // create the resource view on the texture
@@ -90,7 +90,7 @@ namespace FramebufferShaders
 } // namespace FramebufferShaders
 
 void
-Graphics::create_pixel_shader_for_framebuffer(HRESULT hr)
+D3PipeLine::create_pixel_shader_for_framebuffer(HRESULT hr)
 {
   // create pixel shader for framebuffer
   // Ignore the intellisense error "namespace has no member"
@@ -106,7 +106,7 @@ Graphics::create_pixel_shader_for_framebuffer(HRESULT hr)
 }
 
 void
-Graphics::create_vertex_shader_for_framebuffer(HRESULT hr)
+D3PipeLine::create_vertex_shader_for_framebuffer(HRESULT hr)
 {
   // Ignore the intellisense error "namespace has no member"
   if (GraphicsUtil::failed(

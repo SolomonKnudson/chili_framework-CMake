@@ -1,4 +1,3 @@
-#include "Graphics/include/D3PipeLine.hpp"
 #include "Graphics/include/Graphics.hpp"
 
 // Ignore the intellisense error "cannot open source file" for .shh files.
@@ -10,12 +9,12 @@ namespace FramebufferShaders
 } // namespace FramebufferShaders
 
 void
-D3PipeLine::init(const HWND key)
+D3PipeLine::init(const HWND wnd)
 {
   // create device and swap chain/get render target view
   create_device_and_swap_chain({
-      {ScreenSize::Width,              //BufferDesc: Width
-       ScreenSize::Height,             //BufferDesc: Height
+      {Screen::Width,                  //BufferDesc: Width
+       Screen::Height,                 //BufferDesc: Height
        {1, 60},                        //BufferDesc: RefreshRate
        DXGI_FORMAT_B8G8R8A8_UNORM,     //BufferDesc: Format
        {},                             //BufferDesc: ScanlineOrdering
@@ -23,7 +22,7 @@ D3PipeLine::init(const HWND key)
       {1, 0},                          //SampleDesc: Count, Quality}
       DXGI_USAGE_RENDER_TARGET_OUTPUT, //BufferUsage
       1,                               //BufferCount
-      key,                             //OutputWindow
+      wnd,                             //OutputWindow
       true,                            //Windowed
       {},                              //SwapEffect
       {}                               //Flags
@@ -34,16 +33,16 @@ D3PipeLine::init(const HWND key)
   // create a view on backbuffer that we can render to
   create_view_on_back_buffer(hr);
 
-  set_viewport_dimensions({0.0f,                                   //TopLeftX
-                           0.0f,                                   //TopLeftY
-                           static_cast<float>(ScreenSize::Width),  //Width
-                           static_cast<float>(ScreenSize::Height), //Height
-                           0.0f,                                   //MinDepth
-                           1.0f});                                 //MaxDepth
+  set_viewport_dimensions({0.0f,                               //TopLeftX
+                           0.0f,                               //TopLeftY
+                           static_cast<float>(Screen::Width),  //Width
+                           static_cast<float>(Screen::Height), //Height
+                           0.0f,                               //MinDepth
+                           1.0f});                             //MaxDepth
 
   // create texture for cpu render target
-  D3D11_TEXTURE2D_DESC sysTexDesc{ScreenSize::Width,          //Width
-                                  ScreenSize::Height,         //Height
+  D3D11_TEXTURE2D_DESC sysTexDesc{Screen::Width,              //Width
+                                  Screen::Height,             //Height
                                   1,                          //MipLevels
                                   1,                          //ArraySize
                                   DXGI_FORMAT_B8G8R8A8_UNORM, //Format
@@ -91,7 +90,11 @@ D3PipeLine::init(const HWND key)
   if (GraphicsUtil::failed(
           hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
   {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex buffer");
+    throw Graphics::Exception(hr,
+                              L"Creating vertex buffer",
+                              L"C:\\Users\\Solomon\\Documents\\chili_framework-"
+                              L"CMake\\Engine\\Graphics\\src\\GraphicsInit.cpp",
+                              94);
   }
 
   //////////////////////////////////////////
@@ -140,12 +143,12 @@ D3PipeLine::init(const HWND key)
   }
 
   // allocate memory for sysbuffer (16-byte aligned for faster access)
-  m_pSysBuffer = reinterpret_cast<Color*>(_aligned_malloc(
-      sizeof(Color) * ScreenSize::Width * ScreenSize::Height, 16u));
+  m_pSysBuffer = reinterpret_cast<Color*>(
+      _aligned_malloc(sizeof(Color) * Screen::Width * Screen::Height, 16u));
 }
 
 void
-D3PipeLine::set_viewport_dimensions(const D3D11_VIEWPORT& vp)
+D3PipeLine::set_viewport_dimensions(const D3D11_VIEWPORT& vp) const
 {
   m_pImmediateContext->RSSetViewports(1, &vp);
 }

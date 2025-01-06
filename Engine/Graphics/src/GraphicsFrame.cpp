@@ -27,52 +27,61 @@ Graphics::EndFrame()
   HRESULT hr;
 
   // lock and map the adapter memory for copying over the sysbuffer
-  if (FAILED(hr = m_pImmediateContext->Map(m_pSysBufferTexture.Get(),
-                                           0u,
-                                           D3D11_MAP_WRITE_DISCARD,
-                                           0u,
-                                           &m_mappedSysBufferTexture)))
+  if (GraphicsUtil::failed(hr = m_PipeLine.m_pImmediateContext->Map(
+                               m_PipeLine.m_pSysBufferTexture.Get(),
+                               0u,
+                               D3D11_MAP_WRITE_DISCARD,
+                               0u,
+                               &m_PipeLine.m_mappedSysBufferTexture)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Mapping sysbuffer");
   }
   // setup parameters for copy operation
-  Color* pDst = reinterpret_cast<Color*>(m_mappedSysBufferTexture.pData);
-  const size_t dstPitch = m_mappedSysBufferTexture.RowPitch / sizeof(Color);
+  Color* pDst =
+      reinterpret_cast<Color*>(m_PipeLine.m_mappedSysBufferTexture.pData);
+  const size_t dstPitch =
+      m_PipeLine.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
   const size_t srcPitch = Screen::Width;
   const size_t rowBytes = srcPitch * sizeof(Color);
   // perform the copy line-by-line
   for (size_t y = 0u; y < Screen::Height; y++)
   {
-    memcpy(&pDst[y * dstPitch], &m_pSysBuffer[y * srcPitch], rowBytes);
+    memcpy(
+        &pDst[y * dstPitch], &m_PipeLine.m_pSysBuffer[y * srcPitch], rowBytes);
   }
   // release the adapter memory
-  m_pImmediateContext->Unmap(m_pSysBufferTexture.Get(), 0u);
+  m_PipeLine.m_pImmediateContext->Unmap(m_PipeLine.m_pSysBufferTexture.Get(),
+                                        0u);
 
   // render offscreen scene texture to back buffer
-  m_pImmediateContext->IASetInputLayout(m_pInputLayout.Get());
-  m_pImmediateContext->VSSetShader(m_pVertexShader.Get(), nullptr, 0u);
+  m_PipeLine.m_pImmediateContext->IASetInputLayout(
+      m_PipeLine.m_pInputLayout.Get());
+  m_PipeLine.m_pImmediateContext->VSSetShader(
+      m_PipeLine.m_pVertexShader.Get(), nullptr, 0u);
 
-  m_pImmediateContext->PSSetShader(m_pPixelShader.Get(), nullptr, 0u);
-  m_pImmediateContext->IASetPrimitiveTopology(
+  m_PipeLine.m_pImmediateContext->PSSetShader(
+      m_PipeLine.m_pPixelShader.Get(), nullptr, 0u);
+  m_PipeLine.m_pImmediateContext->IASetPrimitiveTopology(
       D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
   const UINT stride{sizeof(FSQVertex)};
   const UINT offset{0u};
 
-  m_pImmediateContext->IASetVertexBuffers(
-      0u, 1u, m_pVertexBuffer.GetAddressOf(), &stride, &offset);
+  m_PipeLine.m_pImmediateContext->IASetVertexBuffers(
+      0u, 1u, m_PipeLine.m_pVertexBuffer.GetAddressOf(), &stride, &offset);
 
-  m_pImmediateContext->PSSetShaderResources(
-      0u, 1u, m_pSysBufferTextureView.GetAddressOf());
-  m_pImmediateContext->PSSetSamplers(0u, 1u, m_pSamplerState.GetAddressOf());
-  m_pImmediateContext->Draw(6u, 0u);
+  m_PipeLine.m_pImmediateContext->PSSetShaderResources(
+      0u, 1u, m_PipeLine.m_pSysBufferTextureView.GetAddressOf());
+  m_PipeLine.m_pImmediateContext->PSSetSamplers(
+      0u, 1u, m_PipeLine.m_pSamplerState.GetAddressOf());
+  m_PipeLine.m_pImmediateContext->Draw(6u, 0u);
 
   // flip back/front buffers
-  if (GraphicsUtil::failed(hr = m_pSwapChain->Present(1u, 0u)))
+  if (GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
   {
     if (hr == DXGI_ERROR_DEVICE_REMOVED)
     {
-      throw CHILI_GFX_EXCEPTION(m_pDevice->GetDeviceRemovedReason(),
+      throw CHILI_GFX_EXCEPTION(m_PipeLine.m_pDevice->GetDeviceRemovedReason(),
                                 L"Presenting back buffer [device removed]");
     }
     else
@@ -85,11 +94,11 @@ Graphics::EndFrame()
 void
 Graphics::flip_buffers(HRESULT hr)
 {
-  if (GraphicsUtil::failed(hr = m_pSwapChain->Present(1u, 0u)))
+  if (GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
   {
     if (hr == DXGI_ERROR_DEVICE_REMOVED)
     {
-      throw CHILI_GFX_EXCEPTION(m_pDevice->GetDeviceRemovedReason(),
+      throw CHILI_GFX_EXCEPTION(m_PipeLine.m_pDevice->GetDeviceRemovedReason(),
                                 L"Presenting back buffer [device removed]");
     }
     else
@@ -108,5 +117,7 @@ Graphics::BeginFrame()
 void
 Graphics::clear_sysbuffer()
 {
-  memset(m_pSysBuffer, 0u, sizeof(Color) * Screen::Height * Screen::Width);
+  memset(m_PipeLine.m_pSysBuffer,
+         0u,
+         sizeof(Color) * Screen::Height * Screen::Width);
 }

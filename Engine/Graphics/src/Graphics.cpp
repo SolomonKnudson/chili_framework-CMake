@@ -26,65 +26,27 @@
 #include <string>
 
 Graphics::Graphics()
-  : m_pSwapChain{}
-  , m_pDevice{}
-
-  , m_pImmediateContext{}
-  , m_pRenderTargetView{}
-
-  , m_pSysBufferTexture{}
-  , m_pSysBufferTextureView{}
-
-  , m_pPixelShader{}
-  , m_pVertexShader{}
-
-  , m_pVertexBuffer{}
-  , m_pInputLayout{}
-
-  , m_pSamplerState{}
-  , m_mappedSysBufferTexture{}
-
-  , m_pSysBuffer{}
+  : m_PipeLine{}
 {
 }
 
 Graphics::Graphics(HWND wnd)
-  : m_pSwapChain{}
-  , m_pDevice{}
-
-  , m_pImmediateContext{}
-  , m_pRenderTargetView{}
-
-  , m_pSysBufferTexture{}
-  , m_pSysBufferTextureView{}
-
-  , m_pPixelShader{}
-  , m_pVertexShader{}
-
-  , m_pVertexBuffer{}
-  , m_pInputLayout{}
-
-  , m_pSamplerState{}
-  , m_mappedSysBufferTexture{}
-
-  , m_pSysBuffer{}
+  : m_PipeLine{wnd}
 {
-  assert(wnd);
-  init(wnd);
 }
 
 Graphics::~Graphics()
 {
   // free sysbuffer memory (aligned free)
-  if (m_pSysBuffer)
+  if (m_PipeLine.m_pSysBuffer)
   {
-    _aligned_free(m_pSysBuffer);
-    m_pSysBuffer = nullptr;
+    _aligned_free(m_PipeLine.m_pSysBuffer);
+    m_PipeLine.m_pSysBuffer = nullptr;
   }
 
   // clear the state of the device context before destruction
-  if (m_pImmediateContext)
-    m_pImmediateContext->ClearState();
+  if (m_PipeLine.m_pImmediateContext)
+    m_PipeLine.m_pImmediateContext->ClearState();
 }
 
 void
@@ -96,5 +58,11 @@ Graphics::PutPixel(int x, int y, Color c)
   assert(y >= 0);
   assert(y < static_cast<int>(Screen::Height));
 
-  m_pSysBuffer[Screen::Width * y + x] = c;
+  m_PipeLine.m_pSysBuffer[Screen::Width * y + x] = c;
+}
+
+void
+Graphics::init(const HWND wnd)
+{
+  m_PipeLine.init(wnd);
 }

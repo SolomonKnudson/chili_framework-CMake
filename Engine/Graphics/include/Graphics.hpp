@@ -23,16 +23,8 @@
 
 #include "CHiliException/include/ChiliException.hpp"
 #include "Colors/include/Colors.hpp"
+#include "Graphics/include/D3PipeLine.hpp"
 #include "Graphics/include/GraphicsUtil.hpp"
-
-#include <d3d11.h>
-#include <wrl.h>
-
-enum Screen
-{
-  Width = 800,
-  Height = 600
-};
 
 class Graphics
 {
@@ -61,26 +53,11 @@ public:
     HRESULT m_hr{};
   };
 
-private:
-  // vertex format for the framebuffer
-  // fullscreen textured quad
-  struct FSQVertex
-  {
-    //position
-    float x{};
-    float y{};
-    float z{};
-
-    //texcoords
-    float u{};
-    float v{};
-  };
-
-public:
   Graphics();
   Graphics(HWND wnd);
-  Graphics(const Graphics&) = delete;
+
   ~Graphics();
+  Graphics(const Graphics&) = delete;
 
   void
   init(HWND wnd);
@@ -105,53 +82,12 @@ public:
 
 private:
   void
-  Graphics::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc);
-
-  void
-  create_view_on_back_buffer(HRESULT hr);
-
-  void
-  Graphics::set_viewport_dimensions(const D3D11_VIEWPORT& vp);
-
-  void
-  create_texture_for_cpu_render_target(const D3D11_TEXTURE2D_DESC& sysTexDesc,
-                                       HRESULT hr);
-
-  void
-  create_resource_view_on_texture(const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc,
-                                  HRESULT hr);
-
-  void
-  create_pixel_shader_for_framebuffer(HRESULT hr);
-
-  void
-  create_vertex_shader_for_framebuffer(HRESULT hr);
-
-  void
   flip_buffers(HRESULT hr);
 
   void
   clear_sysbuffer();
 
-  D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
-  Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
-
-  Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice{};
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pImmediateContext{};
-
-  Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRenderTargetView{};
-  Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
-
-  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSysBufferTextureView{};
-  Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pPixelShader{};
-
-  Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader{};
-  Microsoft::WRL::ComPtr<ID3D11Buffer> m_pVertexBuffer{};
-
-  Microsoft::WRL::ComPtr<ID3D11InputLayout> m_pInputLayout{};
-  Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState{};
-
-  Color* m_pSysBuffer{};
+  D3PipeLine m_PipeLine{};
 };
 
 #endif // !GRAPHICS_H
