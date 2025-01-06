@@ -20,14 +20,6 @@
 ******************************************************************************************/
 #include "Graphics/include/Graphics.hpp"
 
-// Ignore the intellisense error "cannot open source file" for .shh files.
-// They will be created during the build sequence before the preprocessor runs.
-namespace FramebufferShaders
-{
-#include "FrameBuffers/include/FramebufferPS.shh"
-#include "FrameBuffers/include/FramebufferVS.shh"
-} // namespace FramebufferShaders
-
 void
 D3PipeLine::init(const HWND wnd)
 {
@@ -70,7 +62,6 @@ D3PipeLine::init(const HWND wnd)
                                   D3D11_CPU_ACCESS_WRITE,     //CPUAccessFlags
                                   0};                         //MiscFlags
 
-  // create the texture
   create_texture_for_cpu_render_target(sysTexDesc);
 
   D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -85,88 +76,24 @@ D3PipeLine::init(const HWND wnd)
 
   create_vertex_shader_for_framebuffer();
 
-  //////////////////////////////////////////////////////////////
-  // create and fill vertex buffer with quad for rendering frame
-  const FSQVertex vertices[] = {
-      {-1.0f, 1.0f, 0.5f, 0.0f, 0.0f},
-      {1.0f, 1.0f, 0.5f, 1.0f, 0.0f},
-      {1.0f, -1.0f, 0.5f, 1.0f, 1.0f},
-      {-1.0f, 1.0f, 0.5f, 0.0f, 0.0f},
-      {1.0f, -1.0f, 0.5f, 1.0f, 1.0f},
-      {-1.0f, -1.0f, 0.5f, 0.0f, 1.0f},
-  };
-  D3D11_BUFFER_DESC bd{(sizeof(FSQVertex) * 6),  //ByteWidth
-                       D3D11_USAGE_DEFAULT,      //Usage
-                       D3D11_BIND_VERTEX_BUFFER, //BindFlags
-                       0u,                       //CPUAccessFlags
-                       {},                       //MiscFlags
-                       {}};                      //StructureByteStride
+  create_and_fill_vertex_buffer();
 
-  D3D11_SUBRESOURCE_DATA initData = {};
-  initData.pSysMem = vertices;
+  create_input_layout_for_fullscreen_quad();
 
-  if (GraphicsUtil::failed(
-          hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
-  {
-    throw Graphics::Exception(hr,
-                              L"Creating vertex buffer",
-                              L"C:\\Users\\Solomon\\Documents\\chili_framework-"
-                              L"CMake\\Engine\\Graphics\\src\\GraphicsInit.cpp",
-                              94);
-  }
+  create_sampler_state_for_fullscreen_textured_quad();
 
-  //////////////////////////////////////////
-  // create input layout for fullscreen quad
-  const D3D11_INPUT_ELEMENT_DESC ied[] = {{"POSITION",
-                                           0,
-                                           DXGI_FORMAT_R32G32B32_FLOAT,
-                                           0,
-                                           0,
-                                           D3D11_INPUT_PER_VERTEX_DATA,
-                                           0},
-                                          {"TEXCOORD",
-                                           0,
-                                           DXGI_FORMAT_R32G32_FLOAT,
-                                           0,
-                                           12,
-                                           D3D11_INPUT_PER_VERTEX_DATA,
-                                           0}};
-
-  // Ignore the intellisense error "namespace has no member"
-  if (GraphicsUtil::failed(
-          hr = m_pDevice->CreateInputLayout(
-              ied,
-              2,
-              FramebufferShaders::FramebufferVSBytecode,
-              sizeof(FramebufferShaders::FramebufferVSBytecode),
-              &m_pInputLayout)))
-  {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating input layout");
-  }
-
-  ////////////////////////////////////////////////////
-  // Create sampler state for fullscreen textured quad
-  D3D11_SAMPLER_DESC sampDesc = {};
-  sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-  sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-  sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-  sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-  sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-  sampDesc.MinLOD = 0;
-  sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-  if (GraphicsUtil::failed(
-          hr = m_pDevice->CreateSamplerState(&sampDesc, &m_pSamplerState)))
-  {
-    throw CHILI_GFX_EXCEPTION(hr, L"Creating sampler state");
-  }
-
-  // allocate memory for sysbuffer (16-byte aligned for faster access)
-  m_pSysBuffer = reinterpret_cast<Color*>(
-      _aligned_malloc(sizeof(Color) * Screen::Width * Screen::Height, 16u));
+  allocate_memory_for_sysbuffer(); //(16-byte aligned for faster access)
 }
 
 void
 D3PipeLine::set_viewport_dimensions(const D3D11_VIEWPORT& vp) const
 {
   m_pImmediateContext->RSSetViewports(1, &vp);
+}
+
+void
+D3PipeLine::allocate_memory_for_sysbuffer()
+{
+  m_pSysBuffer = reinterpret_cast<Color*>(
+      _aligned_malloc(sizeof(Color) * Screen::Width * Screen::Height, 16u));
 }

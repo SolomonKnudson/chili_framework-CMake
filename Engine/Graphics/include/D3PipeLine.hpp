@@ -78,6 +78,18 @@ struct D3PipeLine
   void
   create_vertex_shader_for_framebuffer();
 
+  void
+  create_and_fill_vertex_buffer();
+
+  void
+  create_input_layout_for_fullscreen_quad();
+
+  void
+  create_sampler_state_for_fullscreen_textured_quad();
+
+  void
+  allocate_memory_for_sysbuffer();
+
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
   Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
 

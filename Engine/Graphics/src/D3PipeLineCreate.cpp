@@ -19,6 +19,7 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "Graphics/include/Graphics.hpp"
+#include <array>
 
 void
 D3PipeLine::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc)
@@ -53,7 +54,6 @@ D3PipeLine::create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc)
 void
 D3PipeLine::create_view_on_back_buffer()
 {
-  // get handle to backbuffer
   Microsoft::WRL::ComPtr<ID3D11Resource> pBackBuffer{};
 
   if (HRESULT hr{}; GraphicsUtil::failed(
@@ -80,7 +80,6 @@ void
 D3PipeLine::create_texture_for_cpu_render_target(
     const D3D11_TEXTURE2D_DESC& sysTexDesc)
 {
-  // create the texture
   if (HRESULT hr{};
       GraphicsUtil::failed(hr = m_pDevice->CreateTexture2D(
                                &sysTexDesc, nullptr, &m_pSysBufferTexture)))
@@ -113,8 +112,6 @@ namespace FramebufferShaders
 void
 D3PipeLine::create_pixel_shader_for_framebuffer()
 {
-  // create pixel shader for framebuffer
-  // Ignore the intellisense error "namespace has no member"
   if (HRESULT hr{}; GraphicsUtil::failed(
           hr = m_pDevice->CreatePixelShader(
               FramebufferShaders::FramebufferPSBytecode,
@@ -129,7 +126,6 @@ D3PipeLine::create_pixel_shader_for_framebuffer()
 void
 D3PipeLine::create_vertex_shader_for_framebuffer()
 {
-  // Ignore the intellisense error "namespace has no member"
   if (HRESULT hr{}; GraphicsUtil::failed(
           hr = m_pDevice->CreateVertexShader(
               FramebufferShaders::FramebufferVSBytecode,
@@ -138,5 +134,88 @@ D3PipeLine::create_vertex_shader_for_framebuffer()
               &m_pVertexShader)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex shader");
+  }
+}
+
+void
+D3PipeLine::create_and_fill_vertex_buffer()
+{
+  constexpr std::array<FSQVertex, 6> vertices{
+      FSQVertex{-1.0f, 1.0f, 0.5f, 0.0f, 0.0f}, //{X, Y, Z, U, V}
+      FSQVertex{1.0f, 1.0f, 0.5f, 1.0f, 0.0f},
+      FSQVertex{1.0f, -1.0f, 0.5f, 1.0f, 1.0f},
+      FSQVertex{-1.0f, 1.0f, 0.5f, 0.0f, 0.0f},
+      FSQVertex{1.0f, -1.0f, 0.5f, 1.0f, 1.0f},
+      FSQVertex{-1.0f, -1.0f, 0.5f, 0.0f, 1.0f},
+  };
+
+  D3D11_BUFFER_DESC bd{(sizeof(FSQVertex) * 6),  //ByteWidth
+                       D3D11_USAGE_DEFAULT,      //Usage
+                       D3D11_BIND_VERTEX_BUFFER, //BindFlags
+                       0u,                       //CPUAccessFlags
+                       {},                       //MiscFlags
+                       {}};                      //StructureByteStride
+
+  D3D11_SUBRESOURCE_DATA initData = {};
+  initData.pSysMem = vertices.data();
+
+  if (HRESULT hr{}; GraphicsUtil::failed(
+          hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
+  {
+    throw Graphics::Exception(hr,
+                              L"Creating vertex buffer",
+                              L"C:\\Users\\Solomon\\Documents\\chili_framework-"
+                              L"CMake\\Engine\\Graphics\\src\\GraphicsInit.cpp",
+                              94);
+  }
+}
+
+void
+D3PipeLine::create_input_layout_for_fullscreen_quad()
+{
+  constexpr std::array<D3D11_INPUT_ELEMENT_DESC, 2> ied{
+      D3D11_INPUT_ELEMENT_DESC{"POSITION",                  //SemanticName
+                               0,                           //SemanticIndex
+                               DXGI_FORMAT_R32G32B32_FLOAT, //Format
+                               0,                           //InputSlot
+                               0,                           //AlignedByteOffset
+                               D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
+                               0}, //IntanceDataStepRate
+      D3D11_INPUT_ELEMENT_DESC{"TEXCOORD",
+                               0,
+                               DXGI_FORMAT_R32G32_FLOAT,
+                               0,
+                               12,
+                               D3D11_INPUT_PER_VERTEX_DATA,
+                               0}};
+
+  if (HRESULT hr{}; GraphicsUtil::failed(
+          hr = m_pDevice->CreateInputLayout(
+              ied.data(),
+              2,
+              FramebufferShaders::FramebufferVSBytecode,
+              sizeof(FramebufferShaders::FramebufferVSBytecode),
+              &m_pInputLayout)))
+  {
+    throw CHILI_GFX_EXCEPTION(hr, L"Creating input layout");
+  }
+}
+
+void
+D3PipeLine::create_sampler_state_for_fullscreen_textured_quad()
+{
+  D3D11_SAMPLER_DESC sampDesc{};
+  sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+  sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+  sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+  sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+  sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+  sampDesc.MinLOD = 0;
+  sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+  if (HRESULT hr{}; GraphicsUtil::failed(
+          hr = m_pDevice->CreateSamplerState(&sampDesc, &m_pSamplerState)))
+  {
+    throw CHILI_GFX_EXCEPTION(hr, L"Creating sampler state");
   }
 }
