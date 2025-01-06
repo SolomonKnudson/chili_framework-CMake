@@ -48,10 +48,8 @@ D3PipeLine::init(const HWND wnd)
       {}                               //Flags
   });
 
-  HRESULT hr{};
-
   // create a view on backbuffer that we can render to
-  create_view_on_back_buffer(hr);
+  create_view_on_back_buffer();
 
   set_viewport_dimensions({0.0f,                               //TopLeftX
                            0.0f,                               //TopLeftY
@@ -73,7 +71,7 @@ D3PipeLine::init(const HWND wnd)
                                   0};                         //MiscFlags
 
   // create the texture
-  create_texture_for_cpu_render_target(sysTexDesc, hr);
+  create_texture_for_cpu_render_target(sysTexDesc);
 
   D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 
@@ -81,11 +79,11 @@ D3PipeLine::init(const HWND wnd)
   srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
   srvDesc.Texture2D.MipLevels = 1;
 
-  create_resource_view_on_texture(srvDesc, hr);
+  create_resource_view_on_texture(srvDesc);
 
-  create_pixel_shader_for_framebuffer(hr);
+  create_pixel_shader_for_framebuffer();
 
-  create_vertex_shader_for_framebuffer(hr);
+  create_vertex_shader_for_framebuffer();
 
   //////////////////////////////////////////////////////////////
   // create and fill vertex buffer with quad for rendering frame

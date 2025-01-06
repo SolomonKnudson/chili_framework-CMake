@@ -60,24 +60,23 @@ struct D3PipeLine
   create_device_and_swap_chain(const DXGI_SWAP_CHAIN_DESC& desc);
 
   void
-  create_view_on_back_buffer(HRESULT hr);
+  create_view_on_back_buffer();
 
   void
   set_viewport_dimensions(const D3D11_VIEWPORT& vp) const;
 
   void
-  create_texture_for_cpu_render_target(const D3D11_TEXTURE2D_DESC& sysTexDesc,
-                                       HRESULT hr);
+  create_texture_for_cpu_render_target(const D3D11_TEXTURE2D_DESC& sysTexDesc);
 
   void
-  create_resource_view_on_texture(const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc,
-                                  HRESULT hr);
+  create_resource_view_on_texture(
+      const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc);
 
   void
-  create_pixel_shader_for_framebuffer(HRESULT hr);
+  create_pixel_shader_for_framebuffer();
 
   void
-  create_vertex_shader_for_framebuffer(HRESULT hr);
+  create_vertex_shader_for_framebuffer();
 
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
   Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
