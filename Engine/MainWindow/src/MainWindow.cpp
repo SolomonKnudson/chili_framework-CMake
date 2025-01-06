@@ -51,10 +51,10 @@ MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
 
   // create window & get hWnd
   RECT wr{
-      350,                               //Left
-      100,                               //Top
-      (Graphics::ScreenWidth + wr.left), //Right
-      Graphics::ScreenHeight + wr.top    //Bottom
+      350,                       //Left
+      100,                       //Top
+      (Screen::Width + wr.left), //Right
+      Screen::Height + wr.top    //Bottom
   };
 
   AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
@@ -196,8 +196,8 @@ MainWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
       {
         POINTS pt = MAKEPOINTS(lParam);
-        if (pt.x > 0 && pt.x < Graphics::ScreenWidth && pt.y > 0 &&
-            pt.y < Graphics::ScreenHeight)
+        if (pt.x > 0 && pt.x < Screen::Width && pt.y > 0 &&
+            pt.y < Screen::Height)
         {
           m_mouse.OnMouseMove(pt.x, pt.y);
           if (!m_mouse.IsInWindow())
@@ -210,10 +210,10 @@ MainWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
           if (wParam & (MK_LBUTTON | MK_RBUTTON))
           {
-            pt.x = std::max(short(0), pt.x);
-            pt.x = std::min(short(Graphics::ScreenWidth - 1), pt.x);
-            pt.y = std::max(short(0), pt.y);
-            pt.y = std::min(short(Graphics::ScreenHeight - 1), pt.y);
+            pt.x = std::max(static_cast<short>(0), pt.x);
+            pt.x = std::min(static_cast<short>(Screen::Width - 1), pt.x);
+            pt.y = std::max(static_cast<short>(0), pt.y);
+            pt.y = std::min(static_cast<short>(Screen::Height - 1), pt.y);
             m_mouse.OnMouseMove(pt.x, pt.y);
           }
           else

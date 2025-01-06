@@ -38,10 +38,10 @@ Graphics::EndFrame()
   // setup parameters for copy operation
   Color* pDst = reinterpret_cast<Color*>(m_mappedSysBufferTexture.pData);
   const size_t dstPitch = m_mappedSysBufferTexture.RowPitch / sizeof(Color);
-  const size_t srcPitch = Graphics::ScreenWidth;
+  const size_t srcPitch = Screen::Width;
   const size_t rowBytes = srcPitch * sizeof(Color);
   // perform the copy line-by-line
-  for (size_t y = 0u; y < Graphics::ScreenHeight; y++)
+  for (size_t y = 0u; y < Screen::Height; y++)
   {
     memcpy(&pDst[y * dstPitch], &m_pSysBuffer[y * srcPitch], rowBytes);
   }
@@ -85,11 +85,11 @@ Graphics::EndFrame()
 void
 Graphics::flip_buffers(HRESULT hr)
 {
-  if (GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
+  if (GraphicsUtil::failed(hr = m_pSwapChain->Present(1u, 0u)))
   {
     if (hr == DXGI_ERROR_DEVICE_REMOVED)
     {
-      throw CHILI_GFX_EXCEPTION(m_PipeLine.m_pDevice->GetDeviceRemovedReason(),
+      throw CHILI_GFX_EXCEPTION(m_pDevice->GetDeviceRemovedReason(),
                                 L"Presenting back buffer [device removed]");
     }
     else
@@ -108,7 +108,5 @@ Graphics::BeginFrame()
 void
 Graphics::clear_sysbuffer()
 {
-  memset(m_PipeLine.m_pSysBuffer,
-         0u,
-         sizeof(Color) * ScreenSize::Height * ScreenSize::Width);
+  memset(m_pSysBuffer, 0u, sizeof(Color) * Screen::Height * Screen::Width);
 }

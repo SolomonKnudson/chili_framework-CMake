@@ -1,3 +1,4 @@
+#include "Graphics/include/D3PipeLine.hpp"
 #include "Graphics/include/Graphics.hpp"
 
 // Ignore the intellisense error "cannot open source file" for .shh files.
@@ -8,17 +9,13 @@ namespace FramebufferShaders
 #include "FrameBuffers/include/FramebufferVS.shh"
 } // namespace FramebufferShaders
 
-namespace GraphicsUtil
-{
-} // namespace GraphicsUtil
-
 void
-Graphics::init(const HWND key)
+D3PipeLine::init(const HWND key)
 {
   // create device and swap chain/get render target view
   create_device_and_swap_chain({
-      {Screen::Width,                  //BufferDesc: Width
-       Screen::Height,                 //BufferDesc: Height
+      {ScreenSize::Width,              //BufferDesc: Width
+       ScreenSize::Height,             //BufferDesc: Height
        {1, 60},                        //BufferDesc: RefreshRate
        DXGI_FORMAT_B8G8R8A8_UNORM,     //BufferDesc: Format
        {},                             //BufferDesc: ScanlineOrdering
@@ -37,16 +34,16 @@ Graphics::init(const HWND key)
   // create a view on backbuffer that we can render to
   create_view_on_back_buffer(hr);
 
-  set_viewport_dimensions({0.0f,                               //TopLeftX
-                           0.0f,                               //TopLeftY
-                           static_cast<float>(Screen::Width),  //Width
-                           static_cast<float>(Screen::Height), //Height
-                           0.0f,                               //MinDepth
-                           1.0f});                             //MaxDepth
+  set_viewport_dimensions({0.0f,                                   //TopLeftX
+                           0.0f,                                   //TopLeftY
+                           static_cast<float>(ScreenSize::Width),  //Width
+                           static_cast<float>(ScreenSize::Height), //Height
+                           0.0f,                                   //MinDepth
+                           1.0f});                                 //MaxDepth
 
   // create texture for cpu render target
-  D3D11_TEXTURE2D_DESC sysTexDesc{Screen::Width,              //Width
-                                  Screen::Height,             //Height
+  D3D11_TEXTURE2D_DESC sysTexDesc{ScreenSize::Width,          //Width
+                                  ScreenSize::Height,         //Height
                                   1,                          //MipLevels
                                   1,                          //ArraySize
                                   DXGI_FORMAT_B8G8R8A8_UNORM, //Format
@@ -115,12 +112,13 @@ Graphics::init(const HWND key)
                                            0}};
 
   // Ignore the intellisense error "namespace has no member"
-  if (FAILED(hr = m_pDevice->CreateInputLayout(
-                 ied,
-                 2,
-                 FramebufferShaders::FramebufferVSBytecode,
-                 sizeof(FramebufferShaders::FramebufferVSBytecode),
-                 &m_pInputLayout)))
+  if (GraphicsUtil::failed(
+          hr = m_pDevice->CreateInputLayout(
+              ied,
+              2,
+              FramebufferShaders::FramebufferVSBytecode,
+              sizeof(FramebufferShaders::FramebufferVSBytecode),
+              &m_pInputLayout)))
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Creating input layout");
   }
@@ -142,12 +140,12 @@ Graphics::init(const HWND key)
   }
 
   // allocate memory for sysbuffer (16-byte aligned for faster access)
-  m_pSysBuffer = reinterpret_cast<Color*>(
-      _aligned_malloc(sizeof(Color) * Screen::Width * Screen::Height, 16u));
+  m_pSysBuffer = reinterpret_cast<Color*>(_aligned_malloc(
+      sizeof(Color) * ScreenSize::Width * ScreenSize::Height, 16u));
 }
 
 void
-Graphics::set_viewport_dimensions(const D3D11_VIEWPORT& vp)
+D3PipeLine::set_viewport_dimensions(const D3D11_VIEWPORT& vp)
 {
   m_pImmediateContext->RSSetViewports(1, &vp);
 }

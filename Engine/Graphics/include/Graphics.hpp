@@ -28,6 +28,12 @@
 #include <d3d11.h>
 #include <wrl.h>
 
+enum Screen
+{
+  Width = 800,
+  Height = 600
+};
+
 class Graphics
 {
 public:
@@ -121,6 +127,12 @@ private:
   void
   create_vertex_shader_for_framebuffer(HRESULT hr);
 
+  void
+  flip_buffers(HRESULT hr);
+
+  void
+  clear_sysbuffer();
+
   D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
   Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain{};
 
@@ -140,10 +152,6 @@ private:
   Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState{};
 
   Color* m_pSysBuffer{};
-
-public:
-  static constexpr int ScreenWidth{800};
-  static constexpr int ScreenHeight{600};
 };
 
 #endif // !GRAPHICS_H
