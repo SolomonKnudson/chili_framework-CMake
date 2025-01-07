@@ -81,8 +81,9 @@ public:
   PutPixel(int x, int y, Color c);
 
 private:
+  //Frame util methods
   void
-  flip_buffers(HRESULT hr);
+  flip_buffers();
 
   void
   clear_sysbuffer();

@@ -39,15 +39,16 @@ Game::Go()
 void
 Game::UpdateModel()
 {
-  for (int i{}, x{}, y{}; i < 500; ++i, ++x, ++y)
-  {
-    m_gfx.PutPixel(x, y, Colors::Red);
-  }
 }
 
 void
 Game::ComposeFrame()
 {
+  for (int i{}, x{}, y{}; i < 500; ++i, ++x, ++y)
+  {
+    m_gfx.PutPixel(x, y, Colors::Red);
+  }
+
   for (int i{}, x{500}; i < 300; ++i, ++x)
   {
     m_gfx.PutPixel(x, 500, Colors::Magenta);

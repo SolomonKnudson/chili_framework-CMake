@@ -53,9 +53,9 @@ void
 Graphics::PutPixel(int x, int y, Color c)
 {
   assert(x >= 0);
-  assert(x < Screen::Width);
-
   assert(y >= 0);
+
+  assert(x < Screen::Width);
   assert(y < Screen::Height);
 
   m_PipeLine.m_pSysBuffer[Screen::Width * y + x] = c;

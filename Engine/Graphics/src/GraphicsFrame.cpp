@@ -24,7 +24,7 @@
 void
 Graphics::EndFrame()
 {
-  HRESULT hr;
+  HRESULT hr{};
 
   // lock and map the adapter memory for copying over the sysbuffer
   if (GraphicsUtil::failed(hr = m_PipeLine.m_pImmediateContext->Map(
@@ -36,19 +36,24 @@ Graphics::EndFrame()
   {
     throw CHILI_GFX_EXCEPTION(hr, L"Mapping sysbuffer");
   }
+
   // setup parameters for copy operation
-  Color* pDst =
-      reinterpret_cast<Color*>(m_PipeLine.m_mappedSysBufferTexture.pData);
-  const size_t dstPitch =
-      m_PipeLine.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
-  const size_t srcPitch = Screen::Width;
-  const size_t rowBytes = srcPitch * sizeof(Color);
+  Color* pDst{
+      reinterpret_cast<Color*>(m_PipeLine.m_mappedSysBufferTexture.pData)};
+
+  const size_t dstPitch{m_PipeLine.m_mappedSysBufferTexture.RowPitch /
+                        sizeof(Color)};
+
+  const size_t srcPitch{Screen::Width};
+  const size_t rowBytes{srcPitch * sizeof(Color)};
+
   // perform the copy line-by-line
   for (size_t y = 0u; y < Screen::Height; y++)
   {
     memcpy(
         &pDst[y * dstPitch], &m_PipeLine.m_pSysBuffer[y * srcPitch], rowBytes);
   }
+
   // release the adapter memory
   m_PipeLine.m_pImmediateContext->Unmap(m_PipeLine.m_pSysBufferTexture.Get(),
                                         0u);
@@ -56,11 +61,13 @@ Graphics::EndFrame()
   // render offscreen scene texture to back buffer
   m_PipeLine.m_pImmediateContext->IASetInputLayout(
       m_PipeLine.m_pInputLayout.Get());
+
   m_PipeLine.m_pImmediateContext->VSSetShader(
       m_PipeLine.m_pVertexShader.Get(), nullptr, 0u);
 
   m_PipeLine.m_pImmediateContext->PSSetShader(
       m_PipeLine.m_pPixelShader.Get(), nullptr, 0u);
+
   m_PipeLine.m_pImmediateContext->IASetPrimitiveTopology(
       D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -72,29 +79,21 @@ Graphics::EndFrame()
 
   m_PipeLine.m_pImmediateContext->PSSetShaderResources(
       0u, 1u, m_PipeLine.m_pSysBufferTextureView.GetAddressOf());
+
   m_PipeLine.m_pImmediateContext->PSSetSamplers(
       0u, 1u, m_PipeLine.m_pSamplerState.GetAddressOf());
+
   m_PipeLine.m_pImmediateContext->Draw(6u, 0u);
 
   // flip back/front buffers
-  if (GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
-  {
-    if (hr == DXGI_ERROR_DEVICE_REMOVED)
-    {
-      throw CHILI_GFX_EXCEPTION(m_PipeLine.m_pDevice->GetDeviceRemovedReason(),
-                                L"Presenting back buffer [device removed]");
-    }
-    else
-    {
-      throw CHILI_GFX_EXCEPTION(hr, L"Presenting back buffer");
-    }
-  }
+  flip_buffers();
 }
 
 void
-Graphics::flip_buffers(HRESULT hr)
+Graphics::flip_buffers()
 {
-  if (GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
+  if (HRESULT hr{};
+      GraphicsUtil::failed(hr = m_PipeLine.m_pSwapChain->Present(1u, 0u)))
   {
     if (hr == DXGI_ERROR_DEVICE_REMOVED)
     {
