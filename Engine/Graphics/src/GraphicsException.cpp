@@ -62,10 +62,12 @@ Graphics::Exception::GetErrorName() const
 std::wstring
 Graphics::Exception::GetErrorDescription() const
 {
-  std::array<wchar_t, 512> wideDescription{};
+  std::wstring wideDescription{};
+  wideDescription.reserve(512);
+
   DXGetErrorDescription(m_hr, wideDescription.data(), wideDescription.size());
 
-  return wideDescription.data();
+  return wideDescription;
 }
 
 std::wstring
