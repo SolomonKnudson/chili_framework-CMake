@@ -1,6 +1,6 @@
 /******************************************************************************************
 *	Chili DirectX Framework Version 16.07.20											  *
-*	Graphics.hpp																			  *
+*	GraphicsException.hpp																			  *
 *	Copyright 2016 PlanetChili <http://www.planetchili.net>								  *
 *																						  *
 *	This file is part of The Chili DirectX Framework.									  *
@@ -18,53 +18,37 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef GRAPHICS_EXCEPTION_H
+#define GRAPHICS_EXCEPTION_H
 
-#include "Colors/include/Colors.hpp"
-#include "Graphics/include/D3PipeLine.hpp"
-#include "Graphics/include/GraphicsException.hpp"
-#include "Graphics/include/GraphicsUtil.hpp"
+#include "CHiliException/include/ChiliException.hpp"
+#include "ChiliWin/include/ChiliWin.hpp"
 
-class Graphics
+#define CHILI_GFX_EXCEPTION(hr, note)                                          \
+  GraphicsException(hr, note, _CRT_WIDE(__FILE__), __LINE__)
+
+class GraphicsException : public ChiliException
 {
 public:
-  Graphics();
-  Graphics(HWND wnd);
+  GraphicsException(HRESULT hr,
+                    const std::wstring& note,
+                    const wchar_t* file,
+                    unsigned int line);
 
-  ~Graphics();
-  Graphics(const Graphics&) = delete;
+  std::wstring
+  GetErrorName() const;
 
-  void
-  init(HWND wnd);
+  std::wstring
+  GetErrorDescription() const;
 
-  Graphics&
-  operator=(const Graphics&) = delete;
+  virtual std::wstring
+  GetFullMessage() const override;
 
-  void
-  EndFrame();
-
-  void
-  BeginFrame();
-
-  void
-  PutPixel(int x, int y, int r, int g, int b)
-  {
-    PutPixel(x, y, {unsigned char(r), unsigned char(g), unsigned char(b)});
-  }
-
-  void
-  PutPixel(int x, int y, Color c);
+  virtual std::wstring
+  GetExceptionType() const override;
 
 private:
-  //Frame util methods
-  void
-  flip_buffers();
-
-  void
-  clear_sysbuffer();
-
-  D3PipeLine m_PipeLine{};
+  HRESULT m_hr{};
 };
 
-#endif // !GRAPHICS_H
+#endif // !GRAPHICS_EXCEPTION_H

@@ -22,9 +22,6 @@
 #define GRAPHICS_UTIL_H
 #include "ChiliWin/include/ChiliWin.hpp"
 
-#define CHILI_GFX_EXCEPTION(hr, note)                                          \
-  Graphics::Exception(hr, note, _CRT_WIDE(__FILE__), __LINE__)
-
 namespace GraphicsUtil
 {
   constexpr bool

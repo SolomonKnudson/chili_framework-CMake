@@ -24,17 +24,17 @@
 #include <array>
 #include <string>
 
-Graphics::Exception::Exception(HRESULT hr,
-                               const std::wstring& note,
-                               const wchar_t* file,
-                               unsigned int line)
+GraphicsException::GraphicsException(HRESULT hr,
+                                     const std::wstring& note,
+                                     const wchar_t* file,
+                                     unsigned int line)
   : ChiliException{file, line, note}
   , m_hr{hr}
 {
 }
 
 std::wstring
-Graphics::Exception::GetFullMessage() const
+GraphicsException::GraphicsException::GetFullMessage() const
 {
   const std::wstring empty{L""};
   const std::wstring errorName{GetErrorName()};
@@ -54,13 +54,13 @@ Graphics::Exception::GetFullMessage() const
 }
 
 std::wstring
-Graphics::Exception::GetErrorName() const
+GraphicsException::GetErrorName() const
 {
   return DXGetErrorString(m_hr);
 }
 
 std::wstring
-Graphics::Exception::GetErrorDescription() const
+GraphicsException::GetErrorDescription() const
 {
   std::wstring wideDescription{};
   wideDescription.reserve(512);
@@ -71,7 +71,7 @@ Graphics::Exception::GetErrorDescription() const
 }
 
 std::wstring
-Graphics::Exception::GetExceptionType() const
+GraphicsException::GetExceptionType() const
 {
   return L"Chili Graphics Exception";
 }
