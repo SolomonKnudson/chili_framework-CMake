@@ -162,11 +162,7 @@ D3PipeLine::create_and_fill_vertex_buffer()
   if (HRESULT hr{}; GraphicsUtil::failed(
           hr = m_pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer)))
   {
-    throw Graphics::Exception(hr,
-                              L"Creating vertex buffer",
-                              L"C:\\Users\\Solomon\\Documents\\chili_framework-"
-                              L"CMake\\Engine\\Graphics\\src\\GraphicsInit.cpp",
-                              94);
+    throw CHILI_GFX_EXCEPTION(hr, L"Creating vertex buffer");
   }
 }
 

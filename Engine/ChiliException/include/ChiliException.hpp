@@ -28,9 +28,9 @@ public:
   ChiliException(const wchar_t* file,
                  unsigned int line,
                  const std::wstring& note = L"")
-    : m_note(note)
-    , m_file(file)
-    , m_line(line)
+    : m_note{note}
+    , m_file{file}
+    , m_line{line}
   {
   }
   const std::wstring&
