@@ -102,9 +102,9 @@ MainWindow::IsMinimized() const
 }
 
 void
-MainWindow::ShowMessageBox(const std::wstring& title,
-                           const std::wstring& message,
-                           const UINT type) const
+MainWindow::ShowMessageBoxW(const std::wstring& title,
+                            const std::wstring& message,
+                            const UINT type) const
 {
   MessageBoxW(m_hWnd, message.c_str(), title.c_str(), type);
 }

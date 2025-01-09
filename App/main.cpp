@@ -42,7 +42,7 @@ wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
       const std::wstring eMsg{e.GetFullMessage() +
                               L"\n\nException caught at Windows message loop."};
 
-      wnd.ShowMessageBox(e.GetExceptionType(), eMsg, MB_ICONERROR);
+      wnd.ShowMessageBoxW(e.GetExceptionType(), eMsg, MB_ICONERROR);
     }
     catch (const std::exception& e)
     {
@@ -52,13 +52,13 @@ wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
       const std::wstring eMsg{std::wstring{whatStr.begin(), whatStr.end()} +
                               L"\n\nException caught at Windows message loop."};
 
-      wnd.ShowMessageBox(L"Unhandled STL Exception", eMsg, MB_ICONERROR);
+      wnd.ShowMessageBoxW(L"Unhandled STL Exception", eMsg, MB_ICONERROR);
     }
     catch (...)
     {
-      wnd.ShowMessageBox(L"Unhandled Non-STL Exception",
-                         L"\n\nException caught at Windows message loop.",
-                         MB_ICONERROR);
+      wnd.ShowMessageBoxW(L"Unhandled Non-STL Exception",
+                          L"\n\nException caught at Windows message loop.",
+                          MB_ICONERROR);
     }
   }
   catch (const ChiliException& e)

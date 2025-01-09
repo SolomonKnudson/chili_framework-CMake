@@ -64,9 +64,9 @@ public:
   IsMinimized() const;
 
   void
-  ShowMessageBox(const std::wstring& title,
-                 const std::wstring& message,
-                 UINT type = MB_OK) const;
+  ShowMessageBoxW(const std::wstring& title,
+                  const std::wstring& message,
+                  UINT type = MB_OK) const;
   void
   Kill()
   {
