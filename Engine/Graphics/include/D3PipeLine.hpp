@@ -70,7 +70,7 @@ struct D3PipeLine
 
   void
   create_resource_view_on_texture(
-      const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc);
+      const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc);
 
   void
   create_pixel_shader_for_framebuffer();

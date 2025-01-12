@@ -90,7 +90,7 @@ D3PipeLine::create_texture_for_cpu_render_target(
 
 void
 D3PipeLine::create_resource_view_on_texture(
-    const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc)
+    const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc)
 {
   // create the resource view on the texture
   if (HRESULT hr{}; GraphicsUtil::failed(
