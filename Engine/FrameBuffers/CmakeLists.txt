@@ -6,5 +6,5 @@ add_library(FrameBuffers INTERFACE
 )
 
 target_include_directories(FrameBuffers INTERFACE
-	${CMAKE_SOURCE_DIR}/Engine/
+	${CMAKE_CURRENT_SOURCE_DIR}/include/
 )

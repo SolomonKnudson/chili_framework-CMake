@@ -20,10 +20,10 @@
  ******************************************************************************************/
 #ifndef GAME_H
 #define GAME_H
-#include "Graphics/include/Graphics.hpp"
-#include "Keyboard/include/Keyboard.hpp"
-#include "MainWindow/include/MainWindow.hpp"
-#include "Mouse/include/Mouse.hpp"
+#include "Graphics.hpp"
+#include "Keyboard.hpp"
+#include "MainWindow.hpp"
+#include "Mouse.hpp"
 
 class Game
 {

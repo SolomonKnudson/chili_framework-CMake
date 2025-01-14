@@ -20,7 +20,7 @@
 ******************************************************************************************/
 #ifndef GRAPHICS_UTIL_H
 #define GRAPHICS_UTIL_H
-#include "ChiliWin/include/ChiliWin.hpp"
+#include "ChiliWin.hpp"
 
 namespace GraphicsUtil
 {

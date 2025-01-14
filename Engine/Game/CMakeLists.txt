@@ -5,7 +5,7 @@ add_library(Game
 )
 
 target_include_directories(Game PUBLIC
-	${CMAKE_SOURCE_DIR}/Engine
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_link_libraries(Game PUBLIC 

@@ -18,7 +18,7 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#include "Graphics/include/Graphics.hpp"
+#include "Graphics.hpp"
 #include <array>
 
 void
@@ -105,8 +105,8 @@ D3PipeLine::create_resource_view_on_texture(
 // They will be created during the build sequence before the preprocessor runs.
 namespace FramebufferShaders
 {
-#include "FrameBuffers/include/FramebufferPS.shh"
-#include "FrameBuffers/include/FramebufferVS.shh"
+#include "FramebufferPS.shh"
+#include "FramebufferVS.shh"
 } // namespace FramebufferShaders
 
 void

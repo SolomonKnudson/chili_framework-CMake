@@ -5,10 +5,10 @@ add_library(DXErr
 )
 
 target_include_directories(DXErr PUBLIC
-	${CMAKE_SOURCE_DIR}/Engine/
+	${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
 
-target_link_libraries(DXErr INTERFACE	
+target_link_libraries(DXErr 	
 	ChiliWin
 )
 

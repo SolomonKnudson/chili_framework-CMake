@@ -5,5 +5,5 @@ add_library(Keyboard
 )
 
 target_include_directories(Keyboard PUBLIC
-	${CMAKE_SOURCE_DIR}/Engine/
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )

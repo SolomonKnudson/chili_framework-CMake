@@ -5,7 +5,7 @@ add_library(Mouse
 )
 
 target_include_directories(Mouse PUBLIC
-	${CMAKE_SOURCE_DIR}/Engine/
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_link_libraries(Mouse)

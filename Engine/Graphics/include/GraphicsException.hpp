@@ -21,8 +21,8 @@
 #ifndef GRAPHICS_EXCEPTION_H
 #define GRAPHICS_EXCEPTION_H
 
-#include "CHiliException/include/ChiliException.hpp"
-#include "ChiliWin/include/ChiliWin.hpp"
+#include "ChiliException.hpp"
+#include "ChiliWin.hpp"
 
 #define CHILI_GFX_EXCEPTION(hr, note)                                          \
   GraphicsException(hr, note, _CRT_WIDE(__FILE__), __LINE__)

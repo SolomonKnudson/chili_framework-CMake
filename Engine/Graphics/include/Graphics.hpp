@@ -21,10 +21,10 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "Colors/include/Colors.hpp"
-#include "Graphics/include/D3PipeLine.hpp"
-#include "Graphics/include/GraphicsException.hpp"
-#include "Graphics/include/GraphicsUtil.hpp"
+#include "Colors.hpp"
+#include "D3PipeLine.hpp"
+#include "GraphicsException.hpp"
+#include "GraphicsUtil.hpp"
 
 class Graphics
 {

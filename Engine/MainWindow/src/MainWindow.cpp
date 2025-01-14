@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#include "MainWindow/include/MainWindow.hpp"
-#include "Resource/include/Resource.hpp"
+#include "MainWindow.hpp"
+#include "Resource.hpp"
 #include <assert.h>
 
 MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)

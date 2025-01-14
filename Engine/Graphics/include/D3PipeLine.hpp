@@ -21,8 +21,8 @@
 #ifndef D3PIPE_LINE_H
 #define D3PIPE_LINE_H
 
-#include "Colors/include/Colors.hpp"
-#include "Graphics/include/GraphicsUtil.hpp"
+#include "Colors.hpp"
+#include "GraphicsUtil.hpp"
 
 #include <d3d11.h>
 #include <wrl.h>

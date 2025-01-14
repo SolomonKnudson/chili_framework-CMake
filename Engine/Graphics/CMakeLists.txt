@@ -11,7 +11,7 @@ add_library(Graphics
 )
 
 target_include_directories(Graphics PUBLIC
-	${CMAKE_SOURCE_DIR}/Engine
+	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_link_libraries(Graphics PUBLIC
@@ -23,6 +23,7 @@ target_link_libraries(Graphics PUBLIC
 
 target_link_libraries(Graphics PRIVATE
 	DXErr
+	FrameBuffers
 )
 
 add_dependencies(Graphics	
@@ -30,4 +31,5 @@ add_dependencies(Graphics
 	Colors 
 	ChiliWin 
 	DXErr
+	FrameBuffers
 )
