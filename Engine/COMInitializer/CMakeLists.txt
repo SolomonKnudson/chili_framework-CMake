@@ -5,10 +5,10 @@ add_library(COMInitializer
 )
 
 target_include_directories(COMInitializer PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include
+	${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
 
-target_link_libraries(COMInitializer INTERFACE	
+target_link_libraries(COMInitializer PUBLIC	
 	ChiliWin
 )
 
