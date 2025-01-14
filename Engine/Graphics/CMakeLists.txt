@@ -11,7 +11,7 @@ add_library(Graphics
 )
 
 target_include_directories(Graphics PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include
+	${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
 
 target_link_libraries(Graphics PUBLIC

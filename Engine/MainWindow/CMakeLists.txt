@@ -5,7 +5,7 @@ add_library(MainWindow
 )
 
 target_include_directories(MainWindow PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include
+	${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
 
 target_link_libraries(MainWindow PUBLIC
