@@ -1,5 +1,16 @@
 cmake_minimum_required(VERSION 3.5)
 
+#dependencies
+include(FetchContent)
+
+FetchContent_Declare(
+	DSA
+	GIT_REPOSITORY https://github.com/SolomonKnudson/DSA.git
+	GIT_TAG main
+)
+
+FetchContent_MakeAvailable(DSA)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_BUILD_TYPE Debug)
@@ -22,6 +33,7 @@ target_link_libraries(chili_framework-CMake PUBLIC
 	MainWindow
 	Mouse
 	Resource
+	leet_code
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Engine/)

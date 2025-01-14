@@ -18,9 +18,10 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#include "ChiliException/include/ChiliException.hpp"
-#include "Game/include/Game.hpp"
-#include "MainWindow/include/MainWindow.hpp"
+#include "ChiliException.hpp"
+#include "Game.hpp"
+#include "MainWindow.hpp"
+#include "leet_code_algorithms.hpp"
 
 int WINAPI
 wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
@@ -87,6 +88,11 @@ wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
                 L"Unhandled Non-STL Exception",
                 MB_ICONERROR);
   }
+
+  MessageBoxA(nullptr,
+              reverse_string("leeT codE").c_str(),
+              "Leet Code",
+              MB_ICONINFORMATION);
 
   return 0;
 }
