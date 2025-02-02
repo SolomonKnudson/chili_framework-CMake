@@ -21,8 +21,8 @@
 #ifndef D3PIPE_LINE_H
 #define D3PIPE_LINE_H
 
-#include "Colors.hpp"
 #include "GraphicsUtil.hpp"
+#include <chili_framework/Colors.hpp>
 
 #include <d3d11.h>
 #include <wrl.h>

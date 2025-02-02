@@ -20,10 +20,10 @@
  ******************************************************************************************/
 #ifndef GAME_H
 #define GAME_H
-#include "Graphics.hpp"
-#include "Keyboard.hpp"
-#include "MainWindow.hpp"
-#include "Mouse.hpp"
+#include <chili_framework/Graphics.hpp>
+#include <chili_framework/Keyboard.hpp>
+#include <chili_framework/MainWindow.hpp>
+#include <chili_framework/Mouse.hpp>
 
 class Game
 {

@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#include "DXErr.hpp"
-#include "Graphics.hpp"
+#include <chili_framework/DXErr.hpp>
+#include <chili_framework/Graphics.hpp>
 
 #include <array>
 #include <string>

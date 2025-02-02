@@ -1,7 +1,7 @@
 /******************************************************************************************
 *	Chili DirectX Framework Version 16.07.20											  *
-*	Graphics.hpp																			  *
-*	Copyright 2016 PlanetChili <http://www.planetchili.net>								  *
+*	GraphicsUtil.hpp																		  *
+*	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
 *																						  *
 *	This file is part of The Chili DirectX Framework.									  *
 *																						  *
@@ -18,53 +18,22 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef GRAPHICS_UTIL_H
+#define GRAPHICS_UTIL_H
+#include <chili_framework/ChiliWin.hpp>
 
-#include "Colors.hpp"
-#include "D3PipeLine.hpp"
-#include "GraphicsException.hpp"
-#include "GraphicsUtil.hpp"
-
-class Graphics
+namespace GraphicsUtil
 {
-public:
-  Graphics();
-  Graphics(HWND wnd);
-
-  ~Graphics();
-  Graphics(const Graphics&) = delete;
-
-  void
-  init(HWND wnd);
-
-  Graphics&
-  operator=(const Graphics&) = delete;
-
-  void
-  EndFrame();
-
-  void
-  BeginFrame();
-
-  void
-  PutPixel(int x, int y, int r, int g, int b)
+  constexpr bool
+  succeeded(HRESULT hr)
   {
-    PutPixel(x, y, {unsigned char(r), unsigned char(g), unsigned char(b)});
+    return hr >= 0;
   }
 
-  void
-  PutPixel(int x, int y, Color c);
-
-private:
-  //Frame util methods
-  void
-  flip_buffers();
-
-  void
-  clear_sysbuffer();
-
-  D3PipeLine m_PipeLine{};
-};
-
-#endif // !GRAPHICS_H
+  constexpr bool
+  failed(const HRESULT hr)
+  {
+    return hr < 0;
+  }
+} // namespace GraphicsUtil
+#endif // !GRAPHICS_UTIL_H

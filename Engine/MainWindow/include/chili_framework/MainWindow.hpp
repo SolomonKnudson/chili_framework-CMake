@@ -21,13 +21,13 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include "ChiliException.hpp"
-#include "ChiliWin.hpp"
+#include <chili_framework/ChiliException.hpp>
+#include <chili_framework/ChiliWin.hpp>
 
-#include "Keyboard.hpp"
-#include "Mouse.hpp"
+#include <chili_framework/Keyboard.hpp>
+#include <chili_framework/Mouse.hpp>
 
-#include "Graphics.hpp"
+#include <chili_framework/Graphics.hpp>
 #include <string>
 
 class MainWindow

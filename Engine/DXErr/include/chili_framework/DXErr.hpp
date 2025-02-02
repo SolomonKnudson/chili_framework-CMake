@@ -15,7 +15,7 @@
 #ifndef DXERR_H
 #define DXERR_H
 
-#include "ChiliWin.hpp"
+#include <chili_framework/ChiliWin.hpp>
 #include <sal.h>
 
 #ifdef __cplusplus

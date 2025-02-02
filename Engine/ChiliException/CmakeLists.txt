@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
-add_library(ChiliException INTERFACE 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/ChiliException.hpp
-)
+add_library(ChiliException INTERFACE)
 
 target_include_directories(ChiliException INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/include/
+	$<BUILD_LOCAL_INTERFACE: ${CMAKE_CURRENT_SOURCE_DIR}/include/>
 )

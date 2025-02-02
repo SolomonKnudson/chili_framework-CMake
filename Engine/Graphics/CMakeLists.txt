@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
-add_library(Graphics 
+add_library(Graphics)
+
+target_sources(Graphics PRIVATE 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/GraphicsUtil.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/GraphicsException.cpp
@@ -11,7 +13,7 @@ add_library(Graphics
 )
 
 target_include_directories(Graphics PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/include/
+	$<BUILD_LOCAL_INTERFACE: ${CMAKE_CURRENT_SOURCE_DIR}/include/>
 )
 
 target_link_libraries(Graphics PUBLIC

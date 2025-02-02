@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
-add_library(Colors INTERFACE 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/Colors.hpp
-)
+add_library(Colors INTERFACE)
 
 target_include_directories(Colors INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/include/
+	$<BUILD_LOCAL_INTERFACE: ${CMAKE_CURRENT_SOURCE_DIR}/include/>
 )

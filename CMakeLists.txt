@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-#dependencies
+#dependencies-ish
 include(FetchContent)
 
 FetchContent_Declare(
@@ -9,7 +9,9 @@ FetchContent_Declare(
 	GIT_TAG main
 )
 
-FetchContent_MakeAvailable(DSA)
+#CMake 3.30 or higher is required
+#Current version: 3.28.0-msvc1
+#FetchContent_MakeAvailable(DSA)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
@@ -33,7 +35,6 @@ target_link_libraries(chili_framework-CMake PUBLIC
 	MainWindow
 	Mouse
 	Resource
-	leet_code
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Engine/)
