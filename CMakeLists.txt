@@ -38,6 +38,6 @@ set_target_properties(chili_framework PROPERTIES
   CXX_EXTENSIONS off
 )
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/app)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/App)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FrameBuffers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Resource)
