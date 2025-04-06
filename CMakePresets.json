@@ -1,0 +1,97 @@
+{
+  "version" : 8,
+
+  "configurePresets" : [
+    {
+      "name" : "base",
+      "hidden" : true,
+      "binaryDir" : "${sourceDir}/build/"
+    },
+
+    {
+      "name" : "ninja",
+      "displayName" : "Ninja Multi-Config build",
+      "inherits" : "base",
+      "generator" : "Ninja Multi-Config"
+    }
+  ],
+
+  "buildPresets" : [
+    {
+      "name" : "debug",
+      "displayName" : "Debug build",
+
+      "configurePreset" : "ninja",
+      "configuration" : "Debug"
+    },
+
+    {
+      "name" : "release",
+      "displayName" : "Release build",
+
+      "configurePreset" : "ninja",
+      "configuration" : "Release"
+    },
+
+    {
+      "name" : "RelWithDebInfo",
+      "displayName" : "RelWithDebInfo build",
+
+      "configurePreset" : "ninja",
+      "configuration" : "RelWithDebInfo"
+    }
+  ],
+
+  "workflowPresets" : [
+    {
+      "name" : "debug",
+      "displayName" : "Debug workflow",
+
+      "steps" : [
+        {
+          "type" : "configure",
+          "name" : "ninja"
+        },
+
+        {
+          "type" : "build",
+          "name" : "debug"
+        }
+      ]
+    },
+
+    {
+      "name" : "release",
+      "displayName" : "Release workflow",
+
+      "steps" : [
+        {
+          "type" : "configure",
+          "name" : "ninja"
+        },
+
+        {
+          "type" : "build",
+          "name" : "release"
+        }
+      ]
+    },
+
+    {
+      "name" : "RelWithDebInfo",
+      "displayName" : "RelWithDebInfo workflow",
+
+      "steps" : [
+        {
+          "type" : "configure",
+          "name" : "ninja"
+        },
+
+        {
+          "type" : "build",
+          "name" : "RelWithDebInfo"
+        }
+      ]
+    }
+  ]
+}

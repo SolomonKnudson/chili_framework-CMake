@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.29)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
@@ -28,8 +28,8 @@ target_include_directories(chili_framework PUBLIC
   $<BUILD_LOCAL_INTERFACE: ${CMAKE_CURRENT_SOURCE_DIR}/include/>
 )
 
-target_link_libraries(chili_framework PUBLIC d3d11.lib)
-add_dependencies(chili_framework d3d11.lib)
+target_link_libraries(chili_framework PUBLIC d3d11.lib FrameBuffers)
+add_dependencies(chili_framework FrameBuffers)
 
 target_compile_features(chili_framework PUBLIC cxx_std_17)
 set_target_properties(chili_framework PROPERTIES
@@ -38,5 +38,6 @@ set_target_properties(chili_framework PROPERTIES
   CXX_EXTENSIONS off
 )
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/app)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FrameBuffers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Resource)
