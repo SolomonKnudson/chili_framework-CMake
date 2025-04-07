@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.29)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
-project(chili_framework-CMake LANGUAGES CXX)
+project(chili_framework-CMake 
+  LANGUAGES CXX
+  DESCRIPTION "This is the Chili Framework used in the world-famous, erection-inducing, cancer-curing Planet Chili C++ Tutorials now with CMake as the build system"
+)
 
 add_library(chili_framework)
 add_library(chili_framework-CMake::chili_framework ALIAS chili_framework)
