@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef CHILI_FRAMEWORK_MAIN_WINDOW_H
+#define CHILI_FRAMEWORK_MAIN_WINDOW_H
 
 #include <chili_framework/ChiliException.hpp>
 #include <chili_framework/ChiliWin.hpp>
@@ -108,4 +108,4 @@ private:
   HINSTANCE m_hInst{};
   static constexpr wchar_t* m_wndClassName{L"Chili DirectX Framework Window"};
 };
-#endif // !MAIN_WINDOW_H
+#endif // !CHILI_FRAMEWORK_MAIN_WINDOW_H

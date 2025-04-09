@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef GRAPHICS_EXCEPTION_H
-#define GRAPHICS_EXCEPTION_H
+#ifndef CHILI_FRAMEWORK_GRAPHICS_EXCEPTION_H
+#define CHILI_FRAMEWORK_GRAPHICS_EXCEPTION_H
 #include <chili_framework/ChiliException.hpp>
 #include <chili_framework/ChiliWin.hpp>
 
@@ -50,4 +50,4 @@ private:
   HRESULT m_hr{};
 };
 
-#endif // !GRAPHICS_EXCEPTION_H
+#endif // !CHILI_FRAMEWORK_GRAPHICS_EXCEPTION_H

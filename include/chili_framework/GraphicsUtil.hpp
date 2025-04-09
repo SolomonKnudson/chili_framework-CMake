@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef GRAPHICS_UTIL_H
-#define GRAPHICS_UTIL_H
+#ifndef CHILI_FRAMEWORK_GRAPHICS_UTIL_H
+#define CHILI_FRAMEWORK_GRAPHICS_UTIL_H
 #include <chili_framework/ChiliWin.hpp>
 
 namespace GraphicsUtil
@@ -36,4 +36,4 @@ namespace GraphicsUtil
     return hr < 0;
   }
 } // namespace GraphicsUtil
-#endif // !GRAPHICS_UTIL_H
+#endif // !CHILI_FRAMEWORK_GRAPHICS_UTIL_H

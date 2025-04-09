@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef D3PIPE_LINE_H
-#define D3PIPE_LINE_H
+#ifndef CHILI_FRAMEWORK_D3PIPE_LINE_H
+#define CHILI_FRAMEWORK_D3PIPE_LINE_H
 
 #include "GraphicsUtil.hpp"
 #include <chili_framework/Colors.hpp>
@@ -110,4 +110,4 @@ struct D3PipeLine
 
   Color* m_pSysBuffer{};
 };
-#endif // !D3PIPE_LINE_H
+#endif // !CHILI_FRAMEWORK_D3PIPE_LINE_H

@@ -18,8 +18,8 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#ifndef GAME_H
-#define GAME_H
+#ifndef CHILI_FRAMEWORK_GAME_H
+#define CHILI_FRAMEWORK_GAME_H
 #include <chili_framework/Graphics.hpp>
 #include <chili_framework/Keyboard.hpp>
 #include <chili_framework/MainWindow.hpp>
@@ -48,4 +48,4 @@ private:
   MainWindow& m_wnd;
   Graphics m_gfx{};
 };
-#endif // !GAME_H
+#endif // !CHILI_FRAMEWORK_GAME_H

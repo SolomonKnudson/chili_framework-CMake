@@ -18,8 +18,8 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#ifndef CHILI_FRAMEWORK_KEYBOARD_H
+#define CHILI_FRAMEWORK_KEYBOARD_H
 
 #include <bitset>
 #include <queue>
@@ -146,4 +146,4 @@ private:
   std::queue<Event> keybuffer{};
   std::queue<char> charbuffer{};
 };
-#endif // !KEYBOARD_H
+#endif // !CHILI_FRAMEWORK_KEYBOARD_H

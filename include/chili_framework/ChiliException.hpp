@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef CHILIEXCEPTION_H
-#define CHILIEXCEPTION_H
+#ifndef CHILI_FRAMEWORK_CHILIEXCEPTION_H
+#define CHILI_FRAMEWORK_CHILIEXCEPTION_H
 #include <string>
 
 class ChiliException
@@ -64,4 +64,4 @@ private:
   std::wstring m_file;
   unsigned int m_line;
 };
-#endif // !CHILIEXCEPTION_H
+#endif // !CHILI_FRAMEWORK_CHILIEXCEPTION_H

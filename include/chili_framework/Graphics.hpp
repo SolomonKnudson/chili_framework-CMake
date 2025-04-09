@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef CHILI_FRAMEWORK_GRAPHICS_H
+#define CHILI_FRAMEWORK_GRAPHICS_H
 #include <chili_framework/Colors.hpp>
 #include <chili_framework/D3PipeLine.hpp>
 
@@ -67,4 +67,4 @@ private:
   D3PipeLine m_PipeLine{};
 };
 
-#endif // !GRAPHICS_H
+#endif // !CHILI_FRAMEWORK_GRAPHICS_H

@@ -18,8 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef CHILI_FRAMEWORK_COLOR_H
+#define CHILI_FRAMEWORK_COLOR_H
 class Color
 {
 public:
@@ -151,4 +151,4 @@ namespace Colors
   static constexpr Color Cyan = {MakeRGB(0u, 255u, 255u)};
   static constexpr Color Magenta = {MakeRGB(255u, 0u, 255u)};
 } // namespace Colors
-#endif // !COLOR_H
+#endif // !CHILI_FRAMEWORK_COLOR_H

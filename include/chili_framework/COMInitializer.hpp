@@ -1,5 +1,5 @@
-#ifndef CONINITIALIZER_H
-#define CONINITIALIZER_H
+#ifndef CHILI_FRAMEWORK_CONINITIALIZER_H
+#define CHILI_FRAMEWORK_CONINITIALIZER_H
 #include <chili_framework/ChiliWin.hpp>
 
 class COMInitializer
@@ -12,4 +12,4 @@ public:
 private:
   HRESULT m_hr{};
 };
-#endif // !CONINITIALIZER_H
+#endif // !CHILI_FRAMEWORK_CONINITIALIZER_H

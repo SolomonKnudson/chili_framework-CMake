@@ -18,8 +18,8 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#ifndef MOUSE_H
-#define MOUSE_H
+#ifndef CHILI_FRAMEWORK_MOUSE_H
+#define CHILI_FRAMEWORK_MOUSE_H
 
 #include <queue>
 
@@ -170,4 +170,4 @@ private:
 
   bool isInWindow{};
 };
-#endif // !MOUSE_H
+#endif // !CHILI_FRAMEWORK_MOUSE_H
