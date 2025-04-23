@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 
 add_executable(chili_framework-CMake WIN32
-	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp	
+	${CMAKE_CURRENT_LIST_DIR}/main.cpp	
 )
 
 target_link_libraries(chili_framework-CMake PRIVATE
