@@ -62,8 +62,10 @@ wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
   {
     const std::wstring eMsg =
         e.GetFullMessage() + L"\n\nException caught at main window creation.";
-    MessageBox(
-        nullptr, eMsg.c_str(), e.GetExceptionType().c_str(), MB_ICONERROR);
+    MessageBox(nullptr,
+               (LPCSTR)eMsg.c_str(),
+               (LPCSTR)e.GetExceptionType().c_str(),
+               MB_ICONERROR);
   }
   catch (const std::exception& e)
   {
@@ -71,13 +73,16 @@ wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR pArgs, INT)
     const std::string whatStr(e.what());
     const std::wstring eMsg = std::wstring(whatStr.begin(), whatStr.end()) +
                               L"\n\nException caught at main window creation.";
-    MessageBox(nullptr, eMsg.c_str(), L"Unhandled STL Exception", MB_ICONERROR);
+    MessageBox(nullptr,
+               (LPCSTR)eMsg.c_str(),
+               (LPCSTR) "Unhandled STL Exception",
+               MB_ICONERROR);
   }
   catch (...)
   {
     MessageBox(nullptr,
-               L"\n\nException caught at main window creation.",
-               L"Unhandled Non-STL Exception",
+               (LPCSTR) "\n\nException caught at main window creation.",
+               (LPCSTR) "Unhandled Non-STL Exception",
                MB_ICONERROR);
   }
 
