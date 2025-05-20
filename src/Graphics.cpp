@@ -18,10 +18,10 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#include <chili_framework/ChiliException.hpp>
-#include <chili_framework/DXErr.hpp>
-#include <chili_framework/Graphics.hpp>
-#include <chili_framework/MainWindow.hpp>
+#include <chili_framework/ChiliException.h>
+#include <chili_framework/DXErr.h>
+#include <chili_framework/Graphics.h>
+#include <chili_framework/MainWindow.h>
 
 #include <array>
 #include <assert.h>
@@ -31,8 +31,8 @@
 // They will be created during the build sequence before the preprocessor runs.
 namespace FramebufferShaders
 {
-#include "FramebufferPS.shh"
-#include "FramebufferVS.shh"
+#include <chili_framework/FramebufferPS.shh>
+#include <chili_framework/FramebufferVS.shh>
 } // namespace FramebufferShaders
 
 #pragma comment(lib, "d3d11.lib")

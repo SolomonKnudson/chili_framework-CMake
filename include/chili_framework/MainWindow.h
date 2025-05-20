@@ -20,13 +20,13 @@
 ******************************************************************************************/
 #pragma once
 #include "ChiliWin.h"
-#include <chili_framework/ChiliException.hpp>
-#include <chili_framework/ChiliWin.hpp>
+#include <chili_framework/ChiliException.h>
+#include <chili_framework/ChiliWin.h>
 
-#include <chili_framework/Keyboard.hpp>
-#include <chili_framework/Mouse.hpp>
+#include <chili_framework/Keyboard.h>
+#include <chili_framework/Mouse.h>
 
-#include <chili_framework/Graphics.hpp>
+#include <chili_framework/Graphics.h>
 #include <string>
 
 // for granting special access to hWnd only for Graphics constructor

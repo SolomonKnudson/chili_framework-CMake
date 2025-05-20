@@ -19,9 +19,9 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #pragma once
-#include <chili_framework/ChiliException.hpp>
-#include <chili_framework/ChiliWin.hpp>
-#include <chili_framework/Colors.hpp>
+#include <chili_framework/ChiliException.h>
+#include <chili_framework/ChiliWin.h>
+#include <chili_framework/Colors.h>
 #include <d3d11.h>
 #include <wrl.h>
 

@@ -22,10 +22,10 @@
 
 #include "Keyboard.h"
 #include "Mouse.h"
-#include <chili_framework/Graphics.hpp>
-#include <chili_framework/Keyboard.hpp>
-#include <chili_framework/MainWindow.hpp>
-#include <chili_framework/Mouse.hpp>
+#include <chili_framework/Graphics.h>
+#include <chili_framework/Keyboard.h>
+#include <chili_framework/MainWindow.h>
+#include <chili_framework/Mouse.h>
 
 class Game
 {

@@ -18,7 +18,7 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#include <chili_framework/Game.hpp>
+#include <chili_framework/Game.h>
 
 Game::Game(MainWindow& wnd)
   : wnd(wnd)
@@ -43,4 +43,18 @@ Game::UpdateModel()
 void
 Game::ComposeFrame()
 {
+  for (int i{}, x{}, y{}; i < 500; ++i, ++x, ++y)
+  {
+    gfx.PutPixel(x, y, Colors::Red);
+  }
+
+  for (int i{}, x{500}; i < 300; ++i, ++x)
+  {
+    gfx.PutPixel(x, 500, Colors::Magenta);
+  }
+
+  for (int i{}, y{500}; i < 500; ++i, --y)
+  {
+    gfx.PutPixel(500, y, Colors::Magenta);
+  }
 }

@@ -1,4 +1,4 @@
-#include <chili_framework/COMInitializer.hpp>
+#include <chili_framework/COMInitializer.h>
 #include <objbase.h>
 
 COMInitializer::COMInitializer()

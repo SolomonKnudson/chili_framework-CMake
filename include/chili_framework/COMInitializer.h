@@ -1,6 +1,6 @@
 #pragma once
 
-#include <chili_framework/ChiliWin.hpp>
+#include <chili_framework/ChiliWin.h>
 
 class COMInitializer
 {
