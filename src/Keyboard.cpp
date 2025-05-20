@@ -143,3 +143,4 @@ Keyboard::TrimBuffer(std::queue<T>& buffer)
     buffer.pop();
   }
 }
+

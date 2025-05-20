@@ -12,8 +12,8 @@
 //--------------------------------------------------------------------------------------
 
 // This version only supports UNICODE.
-#ifndef DXERR_H
-#define DXERR_H
+
+#pragma once
 
 #include <chili_framework/ChiliWin.hpp>
 #include <sal.h>
@@ -85,4 +85,3 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif //__cplusplus
-#endif // !DXERR_H

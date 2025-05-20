@@ -18,8 +18,10 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#ifndef CHILI_FRAMEWORK_GAME_H
-#define CHILI_FRAMEWORK_GAME_H
+#pragma once
+
+#include "Keyboard.h"
+#include "Mouse.h"
 #include <chili_framework/Graphics.hpp>
 #include <chili_framework/Keyboard.hpp>
 #include <chili_framework/MainWindow.hpp>
@@ -30,22 +32,23 @@ class Game
 public:
   Game(class MainWindow& wnd);
   Game(const Game&) = delete;
-
   Game&
   operator=(const Game&) = delete;
-
   void
   Go();
 
 private:
   void
   ComposeFrame();
-
   void
   UpdateModel();
-
+  /********************************/
+  /*  User Functions              */
+  /********************************/
 private:
-  MainWindow& m_wnd;
-  Graphics m_gfx{};
+  MainWindow& wnd;
+  Graphics gfx;
+  /********************************/
+  /*  User Variables              */
+  /********************************/
 };
-#endif // !CHILI_FRAMEWORK_GAME_H

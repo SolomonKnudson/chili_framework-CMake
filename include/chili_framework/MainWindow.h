@@ -18,9 +18,8 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef CHILI_FRAMEWORK_MAIN_WINDOW_H
-#define CHILI_FRAMEWORK_MAIN_WINDOW_H
-
+#pragma once
+#include "ChiliWin.h"
 #include <chili_framework/ChiliException.hpp>
 #include <chili_framework/ChiliWin.hpp>
 
@@ -30,7 +29,24 @@
 #include <chili_framework/Graphics.hpp>
 #include <string>
 
-class MainWindow
+// for granting special access to hWnd only for Graphics constructor
+class HWNDKey
+{
+  friend Graphics::Graphics(HWNDKey&);
+
+public:
+  HWNDKey(const HWNDKey&) = delete;
+  HWNDKey&
+  operator=(HWNDKey&) = delete;
+
+protected:
+  HWNDKey() = default;
+
+protected:
+  HWND hWnd = nullptr;
+};
+
+class MainWindow : public HWNDKey
 {
 public:
   class Exception : public ChiliException
@@ -49,45 +65,33 @@ public:
     }
   };
 
+public:
   MainWindow(HINSTANCE hInst, wchar_t* pArgs);
   MainWindow(const MainWindow&) = delete;
-
   MainWindow&
   operator=(const MainWindow&) = delete;
-
   ~MainWindow();
-
   bool
   IsActive() const;
-
   bool
   IsMinimized() const;
-
   void
-  ShowMessageBoxW(const std::wstring& title,
-                  const std::wstring& message,
-                  UINT type = MB_OK) const;
+  ShowMessageBox(const std::wstring& title,
+                 const std::wstring& message,
+                 UINT type = MB_OK) const;
   void
   Kill()
   {
     PostQuitMessage(0);
   }
-
   // returns false if quitting
   bool
   ProcessMessage();
-
   const std::wstring&
   GetArgs() const
   {
-    return m_args;
+    return args;
   }
-
-  HWND
-  key() const
-  {
-    return m_hWnd;
-  };
 
 private:
   static LRESULT WINAPI
@@ -98,14 +102,11 @@ private:
   HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-  Keyboard m_kbd{};
-  Mouse m_mouse{};
+  Keyboard kbd;
+  Mouse mouse;
 
 private:
-  std::wstring m_args{};
-  HWND m_hWnd{};
-
-  HINSTANCE m_hInst{};
-  static constexpr wchar_t* m_wndClassName{L"Chili DirectX Framework Window"};
+  static constexpr wchar_t* wndClassName = L"Chili DirectX Framework Window";
+  HINSTANCE hInst = nullptr;
+  std::wstring args;
 };
-#endif // !CHILI_FRAMEWORK_MAIN_WINDOW_H

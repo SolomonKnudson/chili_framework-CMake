@@ -21,19 +21,18 @@
 #include <chili_framework/Game.hpp>
 
 Game::Game(MainWindow& wnd)
-  : m_wnd{wnd}
-  , m_gfx{wnd.key()}
+  : wnd(wnd)
+  , gfx(wnd)
 {
 }
 
 void
 Game::Go()
 {
-  m_gfx.BeginFrame();
+  gfx.BeginFrame();
   UpdateModel();
-
   ComposeFrame();
-  m_gfx.EndFrame();
+  gfx.EndFrame();
 }
 
 void
@@ -44,18 +43,4 @@ Game::UpdateModel()
 void
 Game::ComposeFrame()
 {
-  for (int i{}, x{}, y{}; i < 500; ++i, ++x, ++y)
-  {
-    m_gfx.PutPixel(x, y, Colors::Red);
-  }
-
-  for (int i{}, x{500}; i < 300; ++i, ++x)
-  {
-    m_gfx.PutPixel(x, 500, Colors::Magenta);
-  }
-
-  for (int i{}, y{500}; i < 500; ++i, --y)
-  {
-    m_gfx.PutPixel(500, y, Colors::Magenta);
-  }
 }

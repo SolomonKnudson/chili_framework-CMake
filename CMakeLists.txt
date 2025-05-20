@@ -11,14 +11,7 @@ add_library(chili_framework)
 add_library(chili_framework-CMake::chili_framework ALIAS chili_framework)
 
 target_sources(chili_framework PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/D3PipeLine.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/D3PipeLineCreate.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/D3PipeLineInit.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/Graphics.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/GraphicsException.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/GraphicsFrame.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics/GraphicsUtil.cpp
-
+  ${CMAKE_CURRENT_LIST_DIR}/src/Graphics.cpp
   ${CMAKE_CURRENT_LIST_DIR}/src/COMInitializer.cpp
   ${CMAKE_CURRENT_LIST_DIR}/src/DXErr.cpp
   ${CMAKE_CURRENT_LIST_DIR}/src/Game.cpp

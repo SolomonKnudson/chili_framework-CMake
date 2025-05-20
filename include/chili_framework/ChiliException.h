@@ -1,6 +1,6 @@
 /******************************************************************************************
 *	Chili DirectX Framework Version 16.07.20											  *
-*	Graphics.hpp																			  *
+*	ChiliException.h																	  *
 *	Copyright 2016 PlanetChili <http://www.planetchili.net>								  *
 *																						  *
 *	This file is part of The Chili DirectX Framework.									  *
@@ -18,53 +18,38 @@
 *	You should have received a copy of the GNU General Public License					  *
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
-#ifndef CHILI_FRAMEWORK_GRAPHICS_H
-#define CHILI_FRAMEWORK_GRAPHICS_H
-#include <chili_framework/Colors.hpp>
-#include <chili_framework/D3PipeLine.hpp>
+#pragma once
+#include <string>
 
-#include <chili_framework/GraphicsException.hpp>
-#include <chili_framework/GraphicsUtil.hpp>
-
-class Graphics
+class ChiliException
 {
 public:
-  Graphics();
-  Graphics(HWND wnd);
-
-  ~Graphics();
-  Graphics(const Graphics&) = delete;
-
-  Graphics&
-  operator=(const Graphics&) = delete;
-
-  void
-  init(HWND wnd);
-
-  void
-  EndFrame();
-
-  void
-  BeginFrame();
-
-  void
-  PutPixel(int x, int y, int r, int g, int b)
-  {
-    PutPixel(x, y, {unsigned char(r), unsigned char(g), unsigned char(b)});
-  }
-
-  void
-  PutPixel(int x, int y, Color c);
-
+	ChiliException( const wchar_t* file,unsigned int line,const std::wstring& note = L"" )
+		:
+		note( note ),
+		file( file ),
+		line( line )
+	{}
+	const std::wstring& GetNote() const
+	{
+		return note;
+	}
+	const std::wstring& GetFile() const
+	{
+		return file;
+	}
+	unsigned int GetLine() const
+	{
+		return line;
+	}
+	std::wstring GetLocation() const
+	{
+		return std::wstring( L"Line [" ) + std::to_wstring( line ) + L"] in " + file;
+	}
+	virtual std::wstring GetFullMessage() const = 0;
+	virtual std::wstring GetExceptionType() const = 0;
 private:
-  //Frame util methods
-  void
-  flip_buffers();
-
-  void
-  clear_sysbuffer();
-
-  D3PipeLine m_PipeLine{};
+	std::wstring note;
+	std::wstring file;
+	unsigned int line;
 };
-
-#endif // !CHILI_FRAMEWORK_GRAPHICS_H

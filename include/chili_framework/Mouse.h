@@ -18,9 +18,7 @@
  *	You should have received a copy of the GNU General Public License					  *
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
-#ifndef CHILI_FRAMEWORK_MOUSE_H
-#define CHILI_FRAMEWORK_MOUSE_H
-
+#pragma once
 #include <queue>
 
 class Mouse
@@ -43,71 +41,65 @@ public:
       Invalid
     };
 
+  private:
+    Type type;
+    bool leftIsPressed;
+    bool rightIsPressed;
+    int x;
+    int y;
+
+  public:
     Event()
-      : m_type{Type::Invalid}
-      , m_leftIsPressed{}
-      , m_rightIsPressed{}
-      , m_x{}
-      , m_y{}
+      : type(Type::Invalid)
+      , leftIsPressed(false)
+      , rightIsPressed(false)
+      , x(0)
+      , y(0)
     {
     }
     Event(Type type, const Mouse& parent)
-      : m_type{type}
-      , m_leftIsPressed{parent.leftIsPressed}
-      , m_rightIsPressed{parent.rightIsPressed}
-      , m_x{parent.x}
-      , m_y{parent.y}
+      : type(type)
+      , leftIsPressed(parent.leftIsPressed)
+      , rightIsPressed(parent.rightIsPressed)
+      , x(parent.x)
+      , y(parent.y)
     {
     }
-
     bool
     IsValid() const
     {
-      return m_type != Type::Invalid;
+      return type != Type::Invalid;
     }
-
     Type
     GetType() const
     {
-      return m_type;
+      return type;
     }
-
     std::pair<int, int>
     GetPos() const
     {
-      return {m_x, m_y};
+      return {x, y};
     }
-
     int
     GetPosX() const
     {
-      return m_x;
+      return x;
     }
-
     int
     GetPosY() const
     {
-      return m_y;
+      return y;
     }
-
     bool
     LeftIsPressed() const
     {
-      return m_leftIsPressed;
+      return leftIsPressed;
     }
-
     bool
     RightIsPressed() const
     {
-      return m_rightIsPressed;
+      return rightIsPressed;
     }
-
-  private:
-    Type m_type{};
-    bool m_leftIsPressed{};
-    bool m_rightIsPressed{};
-    int m_x{};
-    int m_y{};
   };
 
 public:
@@ -160,14 +152,11 @@ private:
   TrimBuffer();
 
 private:
-  std::queue<Event> buffer{};
-  static constexpr unsigned int bufferSize{4u};
-  int x{};
-  int y{};
-
-  bool leftIsPressed{false};
-  bool rightIsPressed{false};
-
-  bool isInWindow{};
+  static constexpr unsigned int bufferSize = 4u;
+  int x;
+  int y;
+  bool leftIsPressed = false;
+  bool rightIsPressed = false;
+  bool isInWindow = false;
+  std::queue<Event> buffer;
 };
-#endif // !CHILI_FRAMEWORK_MOUSE_H

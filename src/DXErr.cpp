@@ -13,8 +13,8 @@
 
 // This version only supports UNICODE.
 
-#include <chili_framework/DXErr.hpp>
 #include <algorithm>
+#include <chili_framework/DXErr.hpp>
 #include <stdio.h>
 
 #if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)
@@ -75,9 +75,9 @@
     return L#hrchk;
 
 #define HRESULT_FROM_WIN32b(x)                                                 \
-  ((HRESULT)(x) <= 0 ? ((HRESULT)(x))                                          \
-                     : ((HRESULT)(((x) & 0x0000FFFF) |                         \
-                                  (FACILITY_WIN32 << 16) | 0x80000000)))
+  ((HRESULT)(x) <= 0                                                           \
+       ? ((HRESULT)(x))                                                        \
+       : ((HRESULT)(((x)&0x0000FFFF) | (FACILITY_WIN32 << 16) | 0x80000000)))
 
 #define CHK_ERR_WIN32A(hrchk)                                                  \
   case HRESULT_FROM_WIN32b(hrchk):                                             \
