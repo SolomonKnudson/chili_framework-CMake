@@ -19,9 +19,9 @@
 *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #pragma once
-#include "ChiliWin.h"
-#include <chili_framework/ChiliException.h>
-#include <chili_framework/ChiliWin.h>
+#include "chili_framework/ChiliWin.h>
+#include <chili_framework/ChiliException.hpp>
+#include <chili_framework/ChiliWin.hpp>
 
 #include <chili_framework/Keyboard.h>
 #include <chili_framework/Mouse.h>
